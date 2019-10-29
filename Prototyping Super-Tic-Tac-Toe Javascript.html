@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+
+      <meta charset="utf-8">
+      <title>Super Tic-Tac-Toe Game</title>
+  </head>
+    <h1 id="title">Super Tic-Tac-Toe!</h1>
+    <h3 id="creator">By: Maher Al-Rayess</h3>
+  <body>
+    <!-- Buttons go here along with the amount of fields wanted -->
+    <button type="button" onclick="reset()">Reset button(Or you can use 'r' on the keyboard!)</button>
+
+    <p>&nbsp;</p>
+
+    <table>
+        <td><canvas id="Canvas1" width="200" height="100" style="border: 5xp solid #FFFFFF;"></canvas></td>
+        <td><canvas id="Canvas3" width="200" height="100" style="border: 5xp solid #FFFFFF;"></canvas></td>
+    </table>
+
+      <table2>
+        <td><canvas id="Canvas2" onkeypress="keyboardR(event)" width="300" height="300" style="border: 5px solid #FFFFFF"></canvas></td>
+      </table2>
+
+      <script src="Prototyping Super-Tic-Tac-Toe Javascript.js"></script>
+
+  </body>
+
+  <style>
+    h1 {
+      color: white;
+  }
+    h3 {
+      color: white;
+  }
+  button {
+    height: 75px;
+    width: 200px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+  }
+  #Canvas1 {
+    margin: 10px;
+  }
+  #Canvas3 {
+    margin: 10px;
+  }
+  </style>
+</html>
