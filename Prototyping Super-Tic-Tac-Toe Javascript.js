@@ -2,8 +2,8 @@
 let gameStop = false;
 let filled = false;
 let lastPressed = "O";
-let fields = "";
-let board = "";
+let fieldCells = "";
+let boardCells = "";
 let BequalD = 3;
 let FequalD = 3;
 let l = 300;
@@ -88,3 +88,33 @@ var length = l;
       ctx2.stroke();
     }
   }
+
+  var Brow1 = [" ", " ", " "];
+  var Brow2 = [" ", " ", " "];
+  var Brow3 = [" ", " ", " "];
+  var board = [Brow1, Brow2, Brow3];
+
+  var Frow1 = [" ", " ", " "];
+  var Frow2 = [" ", " ", " "];
+  var Frow3 = [" ", " ", " "];
+  var field = [Frow1, Frow2, Frow3];
+  createBoard();
+
+  function createBoard() {
+    for (let r = 0; r < BequalD; r++) {
+      var Brow = board[r];
+      for (let c = 0; c < BequalD; r++) {
+        Brow[c] = "";
+        createField();
+      }
+    }
+  }
+
+function createField() {
+  for (let r = 0; r < FequalD; r++) {
+    var Frow = field[r];
+    for (let c = 0; c < FequalD;c++) {
+      Frow[c] = "";
+    }
+  }
+}
