@@ -41,6 +41,7 @@ var cheight = 100;
 var canvas2 = document.getElementById("Canvas2");
 var ctx2 = canvas2.getContext("2d");
 var length = l;
+var cellD = l/FcellD;
 
   ctx2.fillStyle = "black"; // fills canvas in black
   ctx2.fillRect(0, 0, l, l); // coordinates
@@ -98,23 +99,91 @@ var length = l;
   var Frow2 = [" ", " ", " "];
   var Frow3 = [" ", " ", " "];
   var field = [Frow1, Frow2, Frow3];
+
   createBoard();
 
   function createBoard() {
     for (let r = 0; r < BequalD; r++) {
       var Brow = board[r];
-      for (let c = 0; c < BequalD; r++) {
+      for (let c = 0; c < BequalD; c++) {
         Brow[c] = "";
         createField();
       }
     }
   }
 
-function createField() {
-  for (let r = 0; r < FequalD; r++) {
-    var Frow = field[r];
-    for (let c = 0; c < FequalD;c++) {
-      Frow[c] = "";
+  function createField() {
+    for (let r = 0; r < FequalD; r++) {
+      var Frow = field[r];
+      for (let c = 0; c < FequalD;c++) {
+        Frow[c] = "";
+      }
+    }
+  }
+
+  document.onmousemove = function(evt) { // event listener for mouse
+    //call function here
+    mousePos = getMousePosition(evt); // gets mouse position by calling function, x y
+  }
+  function getMousePosition(evt) { // function that calculates mouse position
+    var rect = Canvas2.getBoundingClientRect(); // gets coords based off of the canvas 2
+      x = Math.round(evt.clientX - rect.left);
+      y = Math.round(evt.clientY - rect.top);
+  }
+
+  document.onmousedown = function() { //event listener for if mouse is pressed
+  //call function here
+  allPlacingCode(x, y); // function of all placing, 2 player AND AI
+}
+
+function allPlacingCode() {
+  var c, r;
+
+  c = Math.floor(x/cellD);
+  r = Math.floor(y/cellD);
+
+  console.log(c, r);
+  var Frow = field[r]; // PROBLEM, THE CODE IS WORKING FOR THE FIRST 3 FIELDS BUT NOTHING BELOW, FIX PROBLEM
+  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && gameStop == false) {
+    if (lastPressed == "X") {
+      Frow[c] = "O";
+      //placing(c, r, "O");
+      console.log("O");
+      lastPressed = "O";
+
+      //nextMoveCboard = Brow[c];
+      //nextMoveRboard = Brow[r];
+
+      /*
+      if (!gameStop) {
+      check3inRow();
+    }
+      */
+    } else {
+      Frow[c] = "X";
+      //placing(c, r, "X");
+      console.log("X");
+      lastPressed = "X";
+
+      //nextMoveCboard = Brow[c];
+      //nextMoveRboard = Brow[r];
+
+      /*
+      if (!gameStop) {
+      check3inRow();
+    }
+      */
     }
   }
 }
+
+/*
+function placing(c, r, symbol) {
+  ctx2.fillStyle = "#FFFFFF";
+  ctx2.font = "120px Arial";
+  ctx2.fillText(symbol, c*cellD + cellD/, (r-1)*cellD - cellD/);
+  count += 1;
+
+  ThreeinRow();
+}
+*/
