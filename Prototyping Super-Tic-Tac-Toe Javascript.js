@@ -42,6 +42,7 @@ var canvas2 = document.getElementById("Canvas2");
 var ctx2 = canvas2.getContext("2d");
 var length = l;
 var cellD = l/FcellD;
+var BoardCellD = l/BcellD;
 
   ctx2.fillStyle = "black"; // fills canvas in black
   ctx2.fillRect(0, 0, l, l); // coordinates
@@ -137,23 +138,27 @@ var cellD = l/FcellD;
 }
 
 function allPlacingCode() {
-  var c, r;
+  var c, r, Bc, Br;
 //add board c,r defined, helps with placing code or drawing
-  c = Math.floor(x/cellD);
-  r = Math.floor(y/cellD);
+  c = Math.floor((x/cellD) % FequalD);
+  r = Math.floor((y/cellD) % FequalD);
+  Bc = Math.floor(x/BcellD);
+  Br = Math.floor(y/BcellD);
 
-  console.log(c, r);
-  var Frow = field[r]; // PROBLEM, THE CODE IS WORKING FOR THE FIRST 3 FIELDS BUT NOTHING BELOW, FIX PROBLEM
-  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && gameStop == false) {
+  console.log("Field C: " + c + " Field R: "+ r + " Board C: " + Bc + " Board R: " + Br);
+  var Frow = field[r];
+  var Brow = board[Br];
+  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && Frow[c] == "" && gameStop == false) {
     if (lastPressed == "X") {
       Frow[c] = "O";
-      //placing(c, r, "O");
+      placing(c, r, "O");
       console.log("O");
       lastPressed = "O";
 
-      //nextMoveCboard = Brow[c];
-      //nextMoveRboard = Brow[r];
+      nextMoveCboard = Math.floor((x/cellD) % FequalD);
+      nextMoveRboard = Math.floor((y/cellD) % FequalD);
 
+      console.log("Next C Move on Board: " + nextMoveCboard + " Next R Move on Board: " + nextMoveRboard);
       /*
       if (!gameStop) {
       check3inRow();
@@ -161,12 +166,14 @@ function allPlacingCode() {
       */
     } else {
       Frow[c] = "X";
-      //placing(c, r, "X");
+      placing(c, r, "X");
       console.log("X");
       lastPressed = "X";
 
-      //nextMoveCboard = Brow[c];
-      //nextMoveRboard = Brow[r];
+      nextMoveCboard = Bc;
+      nextMoveRboard = Br;
+
+      console.log("Next C Move on Board: " + nextMoveCboard + " Next R Move on Board: " + nextMoveRboard);
 
       /*
       if (!gameStop) {
@@ -177,13 +184,12 @@ function allPlacingCode() {
   }
 }
 
-/*
+
 function placing(c, r, symbol) {
   ctx2.fillStyle = "#FFFFFF";
-  ctx2.font = "120px Arial";
-  ctx2.fillText(symbol, c*cellD + cellD/, (r-1)*cellD - cellD/);
+  ctx2.font = "20px Arial";
+  ctx2.fillText(symbol, c*cellD + cellD/4, (r+1)*cellD - cellD/4);
   count += 1;
 
-  ThreeinRow();
+//  ThreeinRow();
 }
-*/
