@@ -138,7 +138,7 @@ var cellD = l/FcellD;
 
 function allPlacingCode() {
   var c, r;
-
+//add board c,r defined, helps with placing code or drawing
   c = Math.floor(x/cellD);
   r = Math.floor(y/cellD);
 
