@@ -151,7 +151,7 @@ function allPlacingCode() {
   if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && Frow[c] == "" && gameStop == false) {
     if (lastPressed == "X") {
       Frow[c] = "O";
-      placing(c, r, "O");
+      placing(c, r, "O", Br, Bc);
       console.log("O");
       lastPressed = "O";
 
@@ -166,7 +166,7 @@ function allPlacingCode() {
       */
     } else {
       Frow[c] = "X";
-      placing(c, r, "X");
+      placing(c, r, "X", Br, Bc);
       console.log("X");
       lastPressed = "X";
 
@@ -185,10 +185,10 @@ function allPlacingCode() {
 }
 
 
-function placing(c, r, symbol) {
+function placing(c, r, symbol, Br, Bc) {
   ctx2.fillStyle = "#FFFFFF";
   ctx2.font = "20px Arial";
-  ctx2.fillText(symbol, c*cellD + cellD/4, (r+1)*cellD - cellD/4);
+  ctx2.fillText(symbol, c*cellD + Bc*3*cellD + cellD/4, (r+1)*cellD + Br*3*cellD - cellD/4);
   count += 1;
 
 //  ThreeinRow();
