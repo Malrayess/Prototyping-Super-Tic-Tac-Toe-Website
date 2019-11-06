@@ -147,7 +147,7 @@ function allPlacingCode() {
 
   console.log("Field C: " + c + " Field R: "+ r + " Board C: " + Bc + " Board R: " + Br);
   var Frow = field[r];
-  var Brow = board[Br];
+  var Brow = board[r];
   if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && Frow[c] == "" && gameStop == false) {
     if (lastPressed == "X") {
       Frow[c] = "O";
@@ -155,8 +155,8 @@ function allPlacingCode() {
       console.log("O");
       lastPressed = "O";
 
-      nextMoveCboard = Math.floor((x/cellD) % FequalD);
-      nextMoveRboard = Math.floor((y/cellD) % FequalD);
+      nextMoveCboard = c;
+      nextMoveRboard = r;
 
       console.log("Next C Move on Board: " + nextMoveCboard + " Next R Move on Board: " + nextMoveRboard);
       /*
@@ -170,8 +170,8 @@ function allPlacingCode() {
       console.log("X");
       lastPressed = "X";
 
-      nextMoveCboard = Bc;
-      nextMoveRboard = Br;
+      nextMoveCboard = c;
+      nextMoveRboard = r;
 
       console.log("Next C Move on Board: " + nextMoveCboard + " Next R Move on Board: " + nextMoveRboard);
 
