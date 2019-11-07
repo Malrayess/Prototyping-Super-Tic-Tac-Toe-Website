@@ -9,6 +9,7 @@ let FequalD = 3;
 let l = 300;
 let Vlines, Hlines;
 var x, y;
+var fields = 0;
 var count = 0;
 var xWin = 0;
 var oWin = 0;
@@ -102,13 +103,13 @@ var BoardCellD = l/BcellD;
   var field = [Frow1, Frow2, Frow3];
 
   createBoard();
+  createField();
 
   function createBoard() {
     for (let r = 0; r < BequalD; r++) {
       var Brow = board[r];
       for (let c = 0; c < BequalD; c++) {
         Brow[c] = "";
-        createField();
       }
     }
   }
@@ -122,6 +123,33 @@ var BoardCellD = l/BcellD;
     }
   }
 
+  /*
+  var Frow1 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+  var Frow2 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+  var Frow3 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+  var Frow4 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+  var Frow5 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+  var Frow6 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+  var Frow7 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+  var Frow8 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+  var Frow9 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+  var field = [Frow1, Frow2, Frow3, Frow4, Frow5, Frow6, Frow7, Frow8, Frow9];
+
+  function createField() {
+    for (let r = 0; r < FcellD; r++) {
+      var Frow = field[r];
+      for (let c = 0; c < FcellD; c++) {
+        Frow[c] = "";
+      }
+    }
+  }
+
+
+    while (fields < FcellD) {
+      createField();
+      fields++;
+    }
+    */
   document.onmousemove = function(evt) { // event listener for mouse
     //call function here
     mousePos = getMousePosition(evt); // gets mouse position by calling function, x y
