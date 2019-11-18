@@ -97,19 +97,20 @@ var BoardCellD = l/BcellD;
   var Brow3 = [" ", " ", " "];
   var board = [Brow1, Brow2, Brow3];
 
-  var Frow1 = [" ", " ", " "];
-  var Frow2 = [" ", " ", " "];
-  var Frow3 = [" ", " ", " "];
+  var Frow1 = ["", "", ""];
+  var Frow2 = ["", "", ""];
+  var Frow3 = ["", "", ""];
   var field = [Frow1, Frow2, Frow3];
 
   createBoard();
+  //createField();
 
   function createBoard() {
     for (let r = 0; r < BequalD; r++) {
       var Brow = board[r];
       for (let c = 0; c < BequalD; c++) {
         Brow[c] = "";
-        createField();
+        //createField();
       }
     }
   }
