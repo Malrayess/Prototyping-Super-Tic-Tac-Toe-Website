@@ -92,6 +92,27 @@ var BoardCellD = l/BcellD;
     }
   }
 
+/*
+  var F = [];
+
+  for (int i = 0; i < FcellD; i++) {
+  F.push("");
+}
+
+for (i = 0; i < Math.pow(BequalD, 4); i++) {
+  r = i/FequalD;
+  c = (r*FequalD) + (i%FequalD);
+}
+
+int i = (r*FequalD) + c;
+
+//When filling in that cell or placing in that cell, instead of filling Frow[c] with "X or O"
+  we fill in using the new array F[] and by calling on to the index
+
+  have this i = .. in placing function..? If so, placing function must be called before filling in array
+    i = (F*FcellD) + (r*FequalD) + c;
+    
+*/
   var Brow1 = [" ", " ", " "];
   var Brow2 = [" ", " ", " "];
   var Brow3 = [" ", " ", " "];
