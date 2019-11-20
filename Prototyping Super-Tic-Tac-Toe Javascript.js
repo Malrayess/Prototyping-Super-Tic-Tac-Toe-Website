@@ -92,18 +92,29 @@ var BoardCellD = l/BcellD;
     }
   }
 
-/*
+
   var F = [];
 
-  for (int i = 0; i < FcellD; i++) {
+  for (let i = 0; i < FcellD; i++) {
   F.push("");
 }
 
-for (i = 0; i < Math.pow(BequalD, 4); i++) {
-  r = i/FequalD;
-  c = (r*FequalD) + (i%FequalD);
+console.log(F);
+/*
+function Frowcolumn() {
+  for (i = 0; i < Math.pow(BequalD, 4); i++) {
+    // calculates and defines F column and F row by multiplying 3 spaces("") in each row of a field by 3, 4 times
+    // first to get 9 total spaces per field
+    // second to get three fields per row of board
+    // third to get three of these fields each column of board
+    // fourth to
+    Fr = i/FcellD;
+    Fc = (i*FequalD) + (i%FequalD);
+  }
+  console.log("Field C: " + Fc + " Field R: "+ Fr);
 }
 
+/*
 int i = (r*FequalD) + c;
 
 //When filling in that cell or placing in that cell, instead of filling Frow[c] with "X or O"
@@ -111,7 +122,7 @@ int i = (r*FequalD) + c;
 
   have this i = .. in placing function..? If so, placing function must be called before filling in array
     i = (F*FcellD) + (r*FequalD) + c;
-    
+
 */
   var Brow1 = [" ", " ", " "];
   var Brow2 = [" ", " ", " "];
@@ -187,7 +198,7 @@ int i = (r*FequalD) + c;
   allPlacingCode(x, y); // function of all placing, 2 player AND AI
 }
 
-function allPlacingCode() {
+function allPlacingCode(x, y) {
   var c, r, Bc, Br;
 //add board c,r defined, helps with placing code or drawing
   c = Math.floor((x/cellD) % FequalD);
@@ -195,6 +206,7 @@ function allPlacingCode() {
   Bc = Math.floor(x/BcellD);
   Br = Math.floor(y/BcellD);
 
+  //Frowcolumn();
   console.log("Field C: " + c + " Field R: "+ r + " Board C: " + Bc + " Board R: " + Br);
   var Frow = field[r];
   var Brow = board[r];
