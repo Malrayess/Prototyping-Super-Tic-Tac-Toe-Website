@@ -93,83 +93,20 @@ var BoardCellD = l/BcellD;
     }
   }
 
-
+  var B = [];
   var F = [];
 
   for (let i = 0; i < FequalD * FequalD * BequalD * BequalD; i++) { // first two multiplying is the cells in the field, the second two are the number of fields in the board
-  F.push("");
-}
+    F.push("");
+  }
+
+  for (let i = 0; i < BequalD * BequalD; i++) {
+    B.push("");
+  }
 
 console.log(F);
-/*
-int i = (r*FequalD) + c;
+console.log(B);
 
-//When filling in that cell or placing in that cell, instead of filling Frow[c] with "X or O"
-  we fill in using the new array F[] and by calling on to the index
-
-  have this i = .. in placing function..? If so, placing function must be called before filling in array
-    i = (F*FcellD) + (r*FequalD) + c;
-
-*/
-  var Brow1 = [" ", " ", " "];
-  var Brow2 = [" ", " ", " "];
-  var Brow3 = [" ", " ", " "];
-  var board = [Brow1, Brow2, Brow3];
-
-  var Frow1 = ["", "", ""];
-  var Frow2 = ["", "", ""];
-  var Frow3 = ["", "", ""];
-  var field = [Frow1, Frow2, Frow3];
-
-  createBoard();
-  //createField();
-
-  function createBoard() {
-    for (let r = 0; r < BequalD; r++) {
-      var Brow = board[r];
-      for (let c = 0; c < BequalD; c++) {
-        Brow[c] = "";
-        //createField();
-      }
-    }
-  }
-
-  function createField() {
-    for (let r = 0; r < FequalD; r++) {
-      var Frow = field[r];
-      for (let c = 0; c < FequalD;c++) {
-        Frow[c] = "";
-      }
-    }
-  }
-
-  /*
-  var Frow1 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
-  var Frow2 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
-  var Frow3 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
-  var Frow4 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
-  var Frow5 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
-  var Frow6 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
-  var Frow7 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
-  var Frow8 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
-  var Frow9 = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
-  var field = [Frow1, Frow2, Frow3, Frow4, Frow5, Frow6, Frow7, Frow8, Frow9];
-
-  function createField() {
-    for (let r = 0; r < FcellD; r++) {
-      var Frow = field[r];
-      for (let c = 0; c < FcellD; c++) {
-        Frow[c] = "";
-      }
-    }
-  }
-
-
-    while (fields < FcellD) {
-      createField();
-      fields++;
-    }
-    */
   document.onmousemove = function(evt) { // event listener for mouse
     //call function here
     mousePos = getMousePosition(evt); // gets mouse position by calling function, x y
@@ -204,7 +141,6 @@ function allPlacingCode(x, y) {
   var i;
 
   console.log("Field C: " + c + " Field R: "+ r + " Board C: " + Bc + " Board R: " + Br);
-  var Brow = board[r];
   i = getIndex(c, r, Bc, Br);
 
   if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (firstMove == 1 && Bc == nextMoveCboard && Br == nextMoveRboard)) && gameStop == false) {
