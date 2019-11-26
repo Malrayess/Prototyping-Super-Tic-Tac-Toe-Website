@@ -1,6 +1,5 @@
 //GLOBAL
 let gameStop = false;
-let filled = false;
 let lastPressed = "O";
 let firstMove = 0;
 let fieldCells = "";
@@ -186,5 +185,83 @@ function placing(c, r, symbol, Br, Bc) {
   ctx2.fillText(symbol, c*cellD + Bc*3*cellD + cellD/4, (r+1)*cellD + Br*3*cellD - cellD/4);
   count += 1;
 
-//  ThreeinRow();
+  ThreeinRow(c, r, Bc, Br);
+}
+
+function ThreeinRow(c, r, Bc, Br) {
+  let winX = false;
+  let winO = false;
+  check3inRow(c, r, Bc, Br);
+}
+
+function check3inRow(c, r, Bc, Br) {
+  if (checkColumn(c, r, Bc, Br) || checkRow(c, r, Bc, Br)) {
+    gameStop = true;
+    console.log("game is won");
+  }
+}
+
+function checkColumn(c, r, Bc, Br) {
+  var win = false;
+  var xCount, oCount;
+
+  for (c=0; c<FequalD; c++) {
+    xCount = 0;
+    oCount = 0;
+    for (r=0; r<FequalD; r++) {
+      i = getIndex(c, r, Bc, Br);
+      if (F[i] == "X") {
+        xCount++;
+      }
+      if (F[i] == "O") {
+        oCount++;
+      }
+    }
+    if (xCount == FequalD) {
+      return true;
+    }
+    if (oCount == FequalD) {
+      return true;
+    }
+  }
+  return win;
+}
+
+function checkRow(c, r, Bc, Br) {
+  var win = false;
+  var xCount, oCount;
+
+  for (r=0; r<FequalD; r++) {
+    xCount = 0;
+    oCount = 0;
+    for (c=0; c<FequalD; c++) {
+      i = getIndex(c, r, Bc, Br);
+      if (F[i] == "X") {
+        xCount++;
+      }
+      if (F[i] == "O") {
+        oCount++;
+      }
+    }
+    if (xCount == FequalD) {
+      return true;
+    }
+    if (oCount == FequalD) {
+      return true;
+    }
+  }
+  return win;
+}
+
+function checkDiagonal(c, r, Bc, Br) {
+  var win = false;
+  var xCount, oCount;
+
+  for (c=0; c<FequalD; c++) {
+    xCount = 0;
+    oCount = 0;
+
+    i = getIndex(c, r, Bc, Br);
+
+ }
 }
