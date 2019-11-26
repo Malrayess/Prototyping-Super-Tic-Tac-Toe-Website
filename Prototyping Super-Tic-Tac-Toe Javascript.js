@@ -2,6 +2,7 @@
 let gameStop = false;
 let filled = false;
 let lastPressed = "O";
+let firstMove = 0;
 let fieldCells = "";
 let boardCells = "";
 let BequalD = 3;
@@ -95,25 +96,11 @@ var BoardCellD = l/BcellD;
 
   var F = [];
 
-  for (let i = 0; i < FcellD; i++) {
+  for (let i = 0; i < FequalD * FequalD * BequalD * BequalD; i++) { // first two multiplying is the cells in the field, the second two are the number of fields in the board
   F.push("");
 }
 
 console.log(F);
-/*
-function Frowcolumn() {
-  for (i = 0; i < Math.pow(BequalD, 4); i++) {
-    // calculates and defines F column and F row by multiplying 3 spaces("") in each row of a field by 3, 4 times
-    // first to get 9 total spaces per field
-    // second to get three fields per row of board
-    // third to get three of these fields each column of board
-    // fourth to
-    Fr = i/FcellD;
-    Fc = (i*FequalD) + (i%FequalD);
-  }
-  console.log("Field C: " + Fc + " Field R: "+ Fr);
-}
-
 /*
 int i = (r*FequalD) + c;
 
@@ -196,6 +183,15 @@ int i = (r*FequalD) + c;
   document.onmousedown = function() { //event listener for if mouse is pressed
   //call function here
   allPlacingCode(x, y); // function of all placing, 2 player AND AI
+  if (firstMove == 0) {
+    firstMove = 1;
+  }
+}
+
+function getIndex(c, r, Bc, Br) {
+  var i;
+  i = (((Br*BequalD) + Bc)*FequalD*FequalD) + (r*FequalD) + c; // the field number * #of cells each field + row inside field(which is 3)*#of cells in field + field column
+  return i;
 }
 
 function allPlacingCode(x, y) {
@@ -205,14 +201,15 @@ function allPlacingCode(x, y) {
   r = Math.floor((y/cellD) % FequalD);
   Bc = Math.floor(x/BcellD);
   Br = Math.floor(y/BcellD);
+  var i;
 
-  //Frowcolumn();
   console.log("Field C: " + c + " Field R: "+ r + " Board C: " + Bc + " Board R: " + Br);
-  var Frow = field[r];
   var Brow = board[r];
-  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && Frow[c] == "" && gameStop == false) {
+  i = getIndex(c, r, Bc, Br);
+
+  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (firstMove == 1 && Bc == nextMoveCboard && Br == nextMoveRboard)) && gameStop == false) {
     if (lastPressed == "X") {
-      Frow[c] = "O";
+      F[i] = "O";
       placing(c, r, "O", Br, Bc);
       console.log("O");
       lastPressed = "O";
@@ -227,7 +224,7 @@ function allPlacingCode(x, y) {
     }
       */
     } else {
-      Frow[c] = "X";
+      F[i] = "X";
       placing(c, r, "X", Br, Bc);
       console.log("X");
       lastPressed = "X";
