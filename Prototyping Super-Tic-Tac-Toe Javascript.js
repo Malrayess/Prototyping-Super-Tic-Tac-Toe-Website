@@ -1,5 +1,6 @@
 //GLOBAL
 let gameStop = false;
+let freePlay = false;
 let lastPressed = "O";
 let firstMove = 0;
 let fieldCells = "";
@@ -10,7 +11,7 @@ let l = 300;
 let Vlines, Hlines;
 var x, y;
 var fields = 0;
-var count = 0;
+var count = 0, Bcount = 0;
 var xWin = 0;
 var oWin = 0;
 let theme = "Dark";
@@ -121,7 +122,10 @@ console.log(B);
   allPlacingCode(x, y); // function of all placing, 2 player AND AI
   if (firstMove == 0) {
     firstMove = 1;
-  }
+    //freePlay = false;
+  } /* if (freePlay = true) {
+    firstMove = 0;
+  }*/
 }
 
 function getIndex(c, r, Bc, Br) {
@@ -148,7 +152,7 @@ function allPlacingCode(x, y) {
   console.log("Field C: " + c + " Field R: "+ r + " Board C: " + Bc + " Board R: " + Br);
   i = getIndex(c, r, Bc, Br);
   Bi = getBindex(c, r, Bc, Br);
-  
+
   if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (firstMove == 1 && Bc == nextMoveCboard && Br == nextMoveRboard)) && gameStop == false) {
     if (lastPressed == "X") {
       F[i] = "O";
@@ -193,6 +197,13 @@ function placing(c, r, symbol, Br, Bc) {
   count += 1;
 
   ThreeinRow(c, r, Bc, Br);
+
+  if (check3inRow(c, r, Bc, Br)) {
+    ctx2.fillStyle = "#FFFFFF";
+    ctx2.font = "20px Arial";
+    ctx2.fillText(symbol, c*cellD + cellD/4, (r+1)*cellD - cellD/4);
+    Bcount += 1;
+  }
 }
 
 function ThreeinRow(c, r, Bc, Br) {
@@ -202,9 +213,15 @@ function ThreeinRow(c, r, Bc, Br) {
 }
 
 function check3inRow(c, r, Bc, Br) {
-  if (checkColumn(c, r, Bc, Br) || checkRow(c, r, Bc, Br) || checkDiagonal(c, r, Bc, Br)) {
-    gameStop = true;
-    console.log("game is won");
+  if (checkColumn(c, r, Bc, Br) == 1 || checkRow(c, r, Bc, Br) == 1 || checkDiagonal(c, r, Bc, Br) == 1) {
+    Bi = getBindex(c, r, Bc, Br);
+    //freePlay = true;
+    B[Bi] = "X";
+    console.log("X won");
+  } else if (checkColumn(c, r, Bc, Br) == 2 || checkRow(c, r, Bc, Br) == 2 || checkDiagonal(c, r, Bc, Br) == 2) {
+    Bi = getBindex(c, r, Bc, Br);
+    B[Bi] = "O";
+    console.log("O won");
   }
 }
 
@@ -225,10 +242,10 @@ function checkColumn(c, r, Bc, Br) {
       }
     }
     if (xCount == FequalD) {
-      return true;
+      return 1;
     }
     if (oCount == FequalD) {
-      return true;
+      return 2;
     }
   }
   return win;
@@ -251,10 +268,10 @@ function checkRow(c, r, Bc, Br) {
       }
     }
     if (xCount == FequalD) {
-      return true;
+      return 1;
     }
     if (oCount == FequalD) {
-      return true;
+      return 2;
     }
   }
   return win;
@@ -291,16 +308,16 @@ function checkDiagonal(c, r, Bc, Br) {
  }
 
   if (xCount1 == FequalD) {
-   return true;
+   return 1;
   }
   if (oCount1 == FequalD) {
-   return true;
+   return 2;
   }
   if (xCount2 == FequalD) {
-   return true;
+   return 1;
   }
   if (oCount2 == FequalD) {
-   return true;
+   return 2;
   }
  return win;
 }
