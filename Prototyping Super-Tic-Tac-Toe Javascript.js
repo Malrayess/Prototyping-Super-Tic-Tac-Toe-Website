@@ -147,7 +147,8 @@ function allPlacingCode(x, y) {
 
   console.log("Field C: " + c + " Field R: "+ r + " Board C: " + Bc + " Board R: " + Br);
   i = getIndex(c, r, Bc, Br);
-
+  Bi = getBindex(c, r, Bc, Br);
+  
   if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (firstMove == 1 && Bc == nextMoveCboard && Br == nextMoveRboard)) && gameStop == false) {
     if (lastPressed == "X") {
       F[i] = "O";
