@@ -196,13 +196,7 @@ function ThreeinRow(c, r, Bc, Br) {
 
 function check3inRow(c, r, Bc, Br) {
   if (checkColumn(c, r, Bc, Br) || checkRow(c, r, Bc, Br)) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> parent of 13e17bc... Update
     gameStop = true;
->>>>>>> parent of 13e17bc... Update
     console.log("game is won");
   }
 }
