@@ -130,6 +130,12 @@ function getIndex(c, r, Bc, Br) {
   return i;
 }
 
+function getBindex(c, r, Bc, Br) {
+  var Bi;
+  Bi = ((r*FequalD) + c);
+  return Bi;
+}
+
 function allPlacingCode(x, y) {
   var c, r, Bc, Br;
 //add board c,r defined, helps with placing code or drawing
@@ -137,7 +143,7 @@ function allPlacingCode(x, y) {
   r = Math.floor((y/cellD) % FequalD);
   Bc = Math.floor(x/BcellD);
   Br = Math.floor(y/BcellD);
-  var i;
+  var i, Bi;
 
   console.log("Field C: " + c + " Field R: "+ r + " Board C: " + Bc + " Board R: " + Br);
   i = getIndex(c, r, Bc, Br);
@@ -195,7 +201,7 @@ function ThreeinRow(c, r, Bc, Br) {
 }
 
 function check3inRow(c, r, Bc, Br) {
-  if (checkColumn(c, r, Bc, Br) || checkRow(c, r, Bc, Br)) {
+  if (checkColumn(c, r, Bc, Br) || checkRow(c, r, Bc, Br) || checkDiagonal(c, r, Bc, Br)) {
     gameStop = true;
     console.log("game is won");
   }
@@ -255,13 +261,45 @@ function checkRow(c, r, Bc, Br) {
 
 function checkDiagonal(c, r, Bc, Br) {
   var win = false;
-  var xCount, oCount;
+  var xCount1, oCount1, xCount2, oCount2;
+  xCount1 = 0;
+  oCount1 = 0;
+  xCount2 = 0;
+  oCount2 = 0;
 
-  for (c=0; c<FequalD; c++) {
-    xCount = 0;
-    oCount = 0;
+  for (d=0; d<FequalD; d++) {
+    i = getIndex(d, d, Bc, Br);
 
-    i = getIndex(c, r, Bc, Br);
-
+    if (F[i] == "X") {
+      xCount1++;
+    }
+    if (F[i] == "O") {
+      oCount1++;
+    }
  }
+
+ for (d=0; d<FequalD; d++) {
+   i = getIndex(d, FequalD-1-d, Bc, Br);
+
+   if (F[i] == "X") {
+     xCount2++;
+   }
+   if (F[i] == "O") {
+     oCount2++;
+   }
+ }
+
+  if (xCount1 == FequalD) {
+   return true;
+  }
+  if (oCount1 == FequalD) {
+   return true;
+  }
+  if (xCount2 == FequalD) {
+   return true;
+  }
+  if (oCount2 == FequalD) {
+   return true;
+  }
+ return win;
 }
