@@ -153,7 +153,7 @@ function allPlacingCode(x, y) {
   i = getIndex(c, r, Bc, Br);
   Bi = getBindex(c, r, Bc, Br);
 
-  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (firstMove == 1 && Bc == nextMoveCboard && Br == nextMoveRboard)) && gameStop == false) {
+  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (firstMove == 1 && Bc == nextMoveCboard && Br == nextMoveRboard))&& B[Bi] == "" && gameStop == false) {
     if (lastPressed == "X") {
       F[i] = "O";
       placing(c, r, "O", Br, Bc);
@@ -197,11 +197,17 @@ function placing(c, r, symbol, Br, Bc) {
   count += 1;
 
   ThreeinRow(c, r, Bc, Br);
+  Bi = getBindex(c, r, Bc, Br);
 
-  if (check3inRow(c, r, Bc, Br)) {
-    ctx2.fillStyle = "#FFFFFF";
-    ctx2.font = "20px Arial";
-    ctx2.fillText(symbol, c*cellD + cellD/4, (r+1)*cellD - cellD/4);
+  if (B[Bi] == "O") {
+    ctx2.fillStyle = "blue";
+    ctx2.font = "90px Arial";
+    ctx2.fillText(symbol, BcellD/(FcellD-2) + (c+1)*BcellD, (r)*BcellD - BcellD/(FcellD-FequalD));
+    Bcount += 1;
+  } else if (B[Bi] == "X") {
+    ctx2.fillStyle = "blue";
+    ctx2.font = "90px Arial";
+    ctx2.fillText(symbol, BcellD/(FcellD-2) + (c+1)*BcellD, (r)*BcellD - BcellD/(FcellD-FequalD));
     Bcount += 1;
   }
 }
@@ -215,7 +221,6 @@ function ThreeinRow(c, r, Bc, Br) {
 function check3inRow(c, r, Bc, Br) {
   if (checkColumn(c, r, Bc, Br) == 1 || checkRow(c, r, Bc, Br) == 1 || checkDiagonal(c, r, Bc, Br) == 1) {
     Bi = getBindex(c, r, Bc, Br);
-    //freePlay = true;
     B[Bi] = "X";
     console.log("X won");
   } else if (checkColumn(c, r, Bc, Br) == 2 || checkRow(c, r, Bc, Br) == 2 || checkDiagonal(c, r, Bc, Br) == 2) {
@@ -226,7 +231,7 @@ function check3inRow(c, r, Bc, Br) {
 }
 
 function checkColumn(c, r, Bc, Br) {
-  var win = false;
+  var win = 0;
   var xCount, oCount;
 
   for (c=0; c<FequalD; c++) {
@@ -252,7 +257,7 @@ function checkColumn(c, r, Bc, Br) {
 }
 
 function checkRow(c, r, Bc, Br) {
-  var win = false;
+  var win = 0;
   var xCount, oCount;
 
   for (r=0; r<FequalD; r++) {
@@ -278,7 +283,7 @@ function checkRow(c, r, Bc, Br) {
 }
 
 function checkDiagonal(c, r, Bc, Br) {
-  var win = false;
+  var win = 0;
   var xCount1, oCount1, xCount2, oCount2;
   xCount1 = 0;
   oCount1 = 0;
