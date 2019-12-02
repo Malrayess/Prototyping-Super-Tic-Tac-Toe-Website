@@ -120,12 +120,7 @@ console.log(B);
   document.onmousedown = function() { //event listener for if mouse is pressed
   //call function here
   allPlacingCode(x, y); // function of all placing, 2 player AND AI
-  if (firstMove == 0) {
     firstMove = 1;
-    //freePlay = false;
-  } /* if (freePlay = true) {
-    firstMove = 0;
-  }*/
 }
 
 function getIndex(c, r, Bc, Br) {
@@ -153,15 +148,19 @@ function allPlacingCode(x, y) {
   i = getIndex(c, r, Bc, Br);
   Bi = getBindex(c, r, Bc, Br);
 
-  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (firstMove == 1 && Bc == nextMoveCboard && Br == nextMoveRboard))&& B[Bi] == "" && gameStop == false) {
+  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (firstMove == 1 && Bc == nextMoveCboard && Br == nextMoveRboard)) && gameStop == false) {
     if (lastPressed == "X") {
       F[i] = "O";
       placing(c, r, "O", Br, Bc);
       console.log("O");
       lastPressed = "O";
 
-      nextMoveCboard = c;
-      nextMoveRboard = r;
+      if (B[Bi] != "") {
+        firstMove = 0;
+      } else if (B[Bi] == "") {
+        nextMoveCboard = c;
+        nextMoveRboard = r;
+      }
 
       console.log("Next C Move on Board: " + nextMoveCboard + " Next R Move on Board: " + nextMoveRboard);
       /*
@@ -175,8 +174,13 @@ function allPlacingCode(x, y) {
       console.log("X");
       lastPressed = "X";
 
-      nextMoveCboard = c;
-      nextMoveRboard = r;
+      if (B[Bi] != "") {
+        console.log("run");
+        firstMove = 0;
+      } else if (B[Bi] == "") {
+        nextMoveCboard = c;
+        nextMoveRboard = r;
+      }
 
       console.log("Next C Move on Board: " + nextMoveCboard + " Next R Move on Board: " + nextMoveRboard);
 
@@ -201,13 +205,13 @@ function placing(c, r, symbol, Br, Bc) {
 
   if (B[Bi] == "O") {
     ctx2.fillStyle = "blue";
-    ctx2.font = "90px Arial";
-    ctx2.fillText(symbol, BcellD/(FcellD-2) + (c+1)*BcellD, (r)*BcellD - BcellD/(FcellD-FequalD));
+    ctx2.font = "100px Arial";
+    ctx2.fillText(symbol, (Bc*3*cellD) + cellD/3, (Br+1)*3*cellD - cellD/2.5);
     Bcount += 1;
   } else if (B[Bi] == "X") {
     ctx2.fillStyle = "blue";
-    ctx2.font = "90px Arial";
-    ctx2.fillText(symbol, BcellD/(FcellD-2) + (c+1)*BcellD, (r)*BcellD - BcellD/(FcellD-FequalD));
+    ctx2.font = "100px Arial";
+    ctx2.fillText(symbol, (Bc*3*cellD) + cellD/3, (Br+1)*3*cellD - cellD/2.5);
     Bcount += 1;
   }
 }
@@ -216,19 +220,44 @@ function ThreeinRow(c, r, Bc, Br) {
   let winX = false;
   let winO = false;
   check3inRow(c, r, Bc, Br);
+  //checkB3inRow(Bc, Br);
 }
 
 function check3inRow(c, r, Bc, Br) {
+  var xCount, oCount;
   if (checkColumn(c, r, Bc, Br) == 1 || checkRow(c, r, Bc, Br) == 1 || checkDiagonal(c, r, Bc, Br) == 1) {
     Bi = getBindex(c, r, Bc, Br);
     B[Bi] = "X";
+    xCount++;
     console.log("X won");
   } else if (checkColumn(c, r, Bc, Br) == 2 || checkRow(c, r, Bc, Br) == 2 || checkDiagonal(c, r, Bc, Br) == 2) {
     Bi = getBindex(c, r, Bc, Br);
     B[Bi] = "O";
+    oCount++;
     console.log("O won");
   }
+
+  if (xCount == BequalD) {
+    gameStop = true;
+    console.log("X won the super game");
+  }
+  if (oCount == BequalD) {
+    gameStop = true;
+    console.log("O won the super game");
+  }
 }
+
+/*function checkB3inRow(Bc, Br) {
+  if (checkBColumn(Bc, Br) == 1 || checkBRow(Bc, Br) == 1 || checkBDiagonal(Bc, Br) == 1) {
+    Bi = getBindex(c, r, Bc, Br);
+    B[Bi] = "X";
+    console.log("X won");
+  } else if (checkBColumn(Bc, Br) == 2 || checkBRow(Bc, Br) == 2 || checkBDiagonal(Bc, Br) == 2) {
+    Bi = getBindex(c, r, Bc, Br);
+    B[Bi] = "O";
+    console.log("O won");
+  }
+}*/
 
 function checkColumn(c, r, Bc, Br) {
   var win = 0;
