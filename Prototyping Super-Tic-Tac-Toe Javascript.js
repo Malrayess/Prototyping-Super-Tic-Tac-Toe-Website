@@ -120,7 +120,9 @@ console.log(B);
   document.onmousedown = function() { //event listener for if mouse is pressed
   //call function here
   allPlacingCode(x, y); // function of all placing, 2 player AND AI
+  if (firstMove == 0) {
     firstMove = 1;
+  }
 }
 
 function getIndex(c, r, Bc, Br) {
@@ -148,48 +150,42 @@ function allPlacingCode(x, y) {
   i = getIndex(c, r, Bc, Br);
   Bi = getBindex(c, r, Bc, Br);
 
-  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (firstMove == 1 && Bc == nextMoveCboard && Br == nextMoveRboard)) && gameStop == false) {
+  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (firstMove == 1 && Bc == nextMoveCboard && Br == nextMoveRboard)) && B[Bi] == "" && gameStop == false) {
     if (lastPressed == "X") {
       F[i] = "O";
       placing(c, r, "O", Br, Bc);
       console.log("O");
       lastPressed = "O";
 
+      nextMoveCboard = c;
+      nextMoveRboard = r;
+
       if (B[Bi] != "") {
         firstMove = 0;
-      } else if (B[Bi] == "") {
-        nextMoveCboard = c;
-        nextMoveRboard = r;
       }
 
-      console.log("Next C Move on Board: " + nextMoveCboard + " Next R Move on Board: " + nextMoveRboard);
-      /*
       if (!gameStop) {
-      check3inRow();
-    }
-      */
+        check3inRow();
+      }
     } else {
       F[i] = "X";
       placing(c, r, "X", Br, Bc);
       console.log("X");
       lastPressed = "X";
 
+      nextMoveCboard = c;
+      nextMoveRboard = r;
+
       if (B[Bi] != "") {
-        console.log("run");
         firstMove = 0;
-      } else if (B[Bi] == "") {
-        nextMoveCboard = c;
-        nextMoveRboard = r;
+        console.log(firstMove);
       }
 
-      console.log("Next C Move on Board: " + nextMoveCboard + " Next R Move on Board: " + nextMoveRboard);
-
-      /*
       if (!gameStop) {
-      check3inRow();
+        check3inRow();
+      }
     }
-      */
-    }
+    console.log("Next C Move on Board: " + nextMoveCboard + " Next R Move on Board: " + nextMoveRboard);
   }
 }
 
@@ -211,7 +207,7 @@ function placing(c, r, symbol, Br, Bc) {
   } else if (B[Bi] == "X") {
     ctx2.fillStyle = "blue";
     ctx2.font = "100px Arial";
-    ctx2.fillText(symbol, (Bc*3*cellD) + cellD/3, (Br+1)*3*cellD - cellD/2.5);
+    ctx2.fillText(symbol, (Bc*3*cellD) + cellD/3 + BequalD-1, (Br+1)*3*cellD - cellD/2.5);
     Bcount += 1;
   }
 }
@@ -226,7 +222,7 @@ function ThreeinRow(c, r, Bc, Br) {
 function check3inRow(c, r, Bc, Br) {
   var xCount, oCount;
   if (checkColumn(c, r, Bc, Br) == 1 || checkRow(c, r, Bc, Br) == 1 || checkDiagonal(c, r, Bc, Br) == 1) {
-    Bi = getBindex(c, r, Bc, Br);
+    Bi = getBindex(Bc, Br);
     B[Bi] = "X";
     xCount++;
     console.log("X won");
