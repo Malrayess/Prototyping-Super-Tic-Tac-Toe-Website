@@ -160,9 +160,9 @@ function allPlacingCode(x, y) {
       nextMoveCboard = c;
       nextMoveRboard = r;
 
-      if (B[Bi] != "") {
+      /*if (B[Bi] != "") {
         firstMove = 0;
-      }
+      }*/
 
       if (!gameStop) {
         check3inRow();
@@ -176,10 +176,10 @@ function allPlacingCode(x, y) {
       nextMoveCboard = c;
       nextMoveRboard = r;
 
-      if (B[Bi] != "") {
+      /*if (B[Bi] != "") {
         firstMove = 0;
         console.log(firstMove);
-      }
+      }*/
 
       if (!gameStop) {
         check3inRow();
@@ -224,11 +224,13 @@ function check3inRow(c, r, Bc, Br) {
   if (checkColumn(c, r, Bc, Br) == 1 || checkRow(c, r, Bc, Br) == 1 || checkDiagonal(c, r, Bc, Br) == 1) {
     Bi = getBindex(Bc, Br);
     B[Bi] = "X";
+    firstMove = 0;
     xCount++;
     console.log("X won");
   } else if (checkColumn(c, r, Bc, Br) == 2 || checkRow(c, r, Bc, Br) == 2 || checkDiagonal(c, r, Bc, Br) == 2) {
-    Bi = getBindex(c, r, Bc, Br);
+    Bi = getBindex(Bc, Br);
     B[Bi] = "O";
+    firstMove = 0;
     oCount++;
     console.log("O won");
   }
