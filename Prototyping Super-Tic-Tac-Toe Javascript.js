@@ -150,9 +150,10 @@ function allPlacingCode(x, y) {
   i = getIndex(c, r, Bc, Br);
   Bi = getBindex(c, r, Bc, Br);
 
-  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (firstMove == 1 && Bc == nextMoveCboard && Br == nextMoveRboard)) && B[Bi] == "" && gameStop == false) {
+  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (firstMove == 1 && Bc == nextMoveCboard && Br == nextMoveRboard && B[Bi] == "")) && gameStop == false) {
     if (lastPressed == "X") {
       F[i] = "O";
+      ThreeinRow(c, r, Bc, Br);
       placing(c, r, "O", Br, Bc);
       console.log("O");
       lastPressed = "O";
@@ -160,15 +161,12 @@ function allPlacingCode(x, y) {
       nextMoveCboard = c;
       nextMoveRboard = r;
 
-      /*if (B[Bi] != "") {
-        firstMove = 0;
-      }*/
-
       if (!gameStop) {
         check3inRow();
       }
     } else {
       F[i] = "X";
+      ThreeinRow(c, r, Bc, Br);
       placing(c, r, "X", Br, Bc);
       console.log("X");
       lastPressed = "X";
@@ -176,15 +174,13 @@ function allPlacingCode(x, y) {
       nextMoveCboard = c;
       nextMoveRboard = r;
 
-      /*if (B[Bi] != "") {
-        firstMove = 0;
-        console.log(firstMove);
-      }*/
-
       if (!gameStop) {
         check3inRow();
       }
     }
+      if ((nextMoveCboard && nextMoveRboard) == B[Bi]) {
+        firstMove = 0;
+      }
     console.log("Next C Move on Board: " + nextMoveCboard + " Next R Move on Board: " + nextMoveRboard);
   }
 }
@@ -196,10 +192,9 @@ function placing(c, r, symbol, Br, Bc) {
   ctx2.fillText(symbol, c*cellD + Bc*3*cellD + cellD/4, (r+1)*cellD + Br*3*cellD - cellD/4);
   count += 1;
 
-  ThreeinRow(c, r, Bc, Br);
   Bi = getBindex(c, r, Bc, Br);
 
-  if (B[Bi] == "O") {
+  /*if (B[Bi] == "O") {
     ctx2.fillStyle = "blue";
     ctx2.font = "100px Arial";
     ctx2.fillText(symbol, (Bc*3*cellD) + cellD/3, (Br+1)*3*cellD - cellD/2.5);
@@ -209,7 +204,7 @@ function placing(c, r, symbol, Br, Bc) {
     ctx2.font = "100px Arial";
     ctx2.fillText(symbol, (Bc*3*cellD) + cellD/3 + BequalD-1, (Br+1)*3*cellD - cellD/2.5);
     Bcount += 1;
-  }
+  }*/
 }
 
 function ThreeinRow(c, r, Bc, Br) {
@@ -227,12 +222,25 @@ function check3inRow(c, r, Bc, Br) {
     firstMove = 0;
     xCount++;
     console.log("X won");
+
+    ctx2.fillStyle = "blue";
+    ctx2.font = "100px Arial";
+    ctx2.fillText("X", (Bc*3*cellD) + cellD/3 + BequalD-1, (Br+1)*3*cellD - cellD/2.5);
+    Bcount += 1;
   } else if (checkColumn(c, r, Bc, Br) == 2 || checkRow(c, r, Bc, Br) == 2 || checkDiagonal(c, r, Bc, Br) == 2) {
     Bi = getBindex(Bc, Br);
     B[Bi] = "O";
     firstMove = 0;
     oCount++;
     console.log("O won");
+
+    ctx2.fillStyle = "blue";
+    ctx2.font = "100px Arial";
+    ctx2.fillText("O", (Bc*3*cellD) + cellD/3, (Br+1)*3*cellD - cellD/2.5);
+    Bcount += 1;
+  } else if (Bcount == 9) {
+    gameStop = true;
+    console.log("Super game is a tie");
   }
 
   if (xCount == BequalD) {
