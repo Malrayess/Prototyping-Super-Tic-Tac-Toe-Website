@@ -1,6 +1,5 @@
 //GLOBAL
 let gameStop = false;
-let freePlay = false;
 let lastPressed = "O";
 let firstMove = 0;
 let fieldCells = "";
@@ -18,6 +17,9 @@ let theme = "Dark";
 var main = false;
 var BcellD = l/BequalD;
 var FcellD = Math.pow(BequalD, 2);
+var nextMoveCboard = 0;
+var nextMoveRboard = 0;
+var freePlay = 1;
 document.body.style.backgroundColor = "black";
 
 //CANVAS 1 SCOREBOARD
@@ -131,9 +133,9 @@ function getIndex(c, r, Bc, Br) {
   return i;
 }
 
-function getBindex(c, r, Bc, Br) {
+function getBindex(c, r) {
   var Bi;
-  Bi = ((r*FequalD) + c);
+  Bi = ((r*BequalD) + c);
   return Bi;
 }
 
@@ -148,9 +150,11 @@ function allPlacingCode(x, y) {
 
   console.log("Field C: " + c + " Field R: "+ r + " Board C: " + Bc + " Board R: " + Br);
   i = getIndex(c, r, Bc, Br);
-  Bi = getBindex(c, r, Bc, Br);
+  Bi = getBindex(Bc, Br);
+  checkBoard(Bc,Br);
 
-  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (firstMove == 1 && Bc == nextMoveCboard && Br == nextMoveRboard && B[Bi] == "")) && gameStop == false) {
+  console.log("board index " + nextBi + " - " + nextMoveCboard + " , " + nextMoveRboard);
+  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (freePlay == 0 || (freePlay == 1 && Bc == nextMoveCboard && Br == nextMoveRboard && B[Bi] == "")) && gameStop == false) {
     if (lastPressed == "X") {
       F[i] = "O";
       ThreeinRow(c, r, Bc, Br);
@@ -160,10 +164,6 @@ function allPlacingCode(x, y) {
 
       nextMoveCboard = c;
       nextMoveRboard = r;
-
-      if (!gameStop) {
-        check3inRow();
-      }
     } else {
       F[i] = "X";
       ThreeinRow(c, r, Bc, Br);
@@ -173,15 +173,21 @@ function allPlacingCode(x, y) {
 
       nextMoveCboard = c;
       nextMoveRboard = r;
-
-      if (!gameStop) {
-        check3inRow();
-      }
     }
-      if ((nextMoveCboard && nextMoveRboard) == B[Bi]) {
+      if (B[Bi] != "") {
         firstMove = 0;
       }
     console.log("Next C Move on Board: " + nextMoveCboard + " Next R Move on Board: " + nextMoveRboard);
+  }
+}
+
+function checkBoard(Bc,Br){
+  var Bi = getBindex(Bc,Br);
+  if (B[Bi] != ""){
+    freePlay = 1;
+  }
+  else {
+    freePlay = 0;
   }
 }
 
@@ -192,9 +198,9 @@ function placing(c, r, symbol, Br, Bc) {
   ctx2.fillText(symbol, c*cellD + Bc*3*cellD + cellD/4, (r+1)*cellD + Br*3*cellD - cellD/4);
   count += 1;
 
-  Bi = getBindex(c, r, Bc, Br);
-
-  /*if (B[Bi] == "O") {
+  Bi = getBindex(Bc, Br);
+  console.log(B[Bi]);
+  if (B[Bi] == "O") {
     ctx2.fillStyle = "blue";
     ctx2.font = "100px Arial";
     ctx2.fillText(symbol, (Bc*3*cellD) + cellD/3, (Br+1)*3*cellD - cellD/2.5);
@@ -204,66 +210,50 @@ function placing(c, r, symbol, Br, Bc) {
     ctx2.font = "100px Arial";
     ctx2.fillText(symbol, (Bc*3*cellD) + cellD/3 + BequalD-1, (Br+1)*3*cellD - cellD/2.5);
     Bcount += 1;
-  }*/
+  }
 }
 
 function ThreeinRow(c, r, Bc, Br) {
   let winX = false;
   let winO = false;
   check3inRow(c, r, Bc, Br);
-  //checkB3inRow(Bc, Br);
+  checkB3inRow(Bc, Br);
 }
 
 function check3inRow(c, r, Bc, Br) {
-  var xCount, oCount;
+
   if (checkColumn(c, r, Bc, Br) == 1 || checkRow(c, r, Bc, Br) == 1 || checkDiagonal(c, r, Bc, Br) == 1) {
+    console.log("X won");
     Bi = getBindex(Bc, Br);
     B[Bi] = "X";
-    firstMove = 0;
-    xCount++;
-    console.log("X won");
-
-    ctx2.fillStyle = "blue";
-    ctx2.font = "100px Arial";
-    ctx2.fillText("X", (Bc*3*cellD) + cellD/3 + BequalD-1, (Br+1)*3*cellD - cellD/2.5);
-    Bcount += 1;
+    prevMoveCboard = Bc;
+    prevMoveRboard = Br;
+    Bcount++;
   } else if (checkColumn(c, r, Bc, Br) == 2 || checkRow(c, r, Bc, Br) == 2 || checkDiagonal(c, r, Bc, Br) == 2) {
     Bi = getBindex(Bc, Br);
     B[Bi] = "O";
-    firstMove = 0;
-    oCount++;
+    prevMoveCboard = Bc;
+    prevMoveRboard = Br;
+    Bcount++;
     console.log("O won");
-
-    ctx2.fillStyle = "blue";
-    ctx2.font = "100px Arial";
-    ctx2.fillText("O", (Bc*3*cellD) + cellD/3, (Br+1)*3*cellD - cellD/2.5);
-    Bcount += 1;
-  } else if (Bcount == 9) {
-    gameStop = true;
-    console.log("Super game is a tie");
-  }
-
-  if (xCount == BequalD) {
-    gameStop = true;
-    console.log("X won the super game");
-  }
-  if (oCount == BequalD) {
-    gameStop = true;
-    console.log("O won the super game");
+  } else {
+    prevMoveCboard = -1;
+    prevMoveRboard = -1;
   }
 }
 
-/*function checkB3inRow(Bc, Br) {
+function checkB3inRow(Bc, Br) {
   if (checkBColumn(Bc, Br) == 1 || checkBRow(Bc, Br) == 1 || checkBDiagonal(Bc, Br) == 1) {
-    Bi = getBindex(c, r, Bc, Br);
-    B[Bi] = "X";
-    console.log("X won");
-  } else if (checkBColumn(Bc, Br) == 2 || checkBRow(Bc, Br) == 2 || checkBDiagonal(Bc, Br) == 2) {
-    Bi = getBindex(c, r, Bc, Br);
-    B[Bi] = "O";
-    console.log("O won");
+    gameStop = true;
+    console.log("X won the super game");
+    } else if (checkBColumn(Bc, Br) == 2 || checkBRow(Bc, Br) == 2 || checkBDiagonal(Bc, Br) == 2) {
+    gameStop = true;
+    console.log("O won the super game");
+    } else if (Bcount == 9) {
+    gameStop = true;
+    console.log("Super game is a tie");
   }
-}*/
+}
 
 function checkColumn(c, r, Bc, Br) {
   var win = 0;
@@ -357,6 +347,103 @@ function checkDiagonal(c, r, Bc, Br) {
    return 1;
   }
   if (oCount2 == FequalD) {
+   return 2;
+  }
+ return win;
+}
+
+function checkBColumn(c, r) {
+  var win = 0;
+  var xCount, oCount;
+
+  for (c=0; c<BequalD; c++) {
+    xCount = 0;
+    oCount = 0;
+    for (r=0; r<BequalD; r++) {
+      i = getBindex(c, r);
+      if (B[i] == "X") {
+        xCount++;
+      }
+      if (B[i] == "O") {
+        oCount++;
+      }
+    }
+    if (xCount == BequalD) {
+      return 1;
+    }
+    if (oCount == BequalD) {
+      return 2;
+    }
+  }
+  return win;
+}
+
+function checkBRow(c, r) {
+  var win = 0;
+  var xCount, oCount;
+
+  for (r=0; r<BequalD; r++) {
+    xCount = 0;
+    oCount = 0;
+    for (c=0; c<BequalD; c++) {
+      i = getBindex(c, r);
+      if (B[i] == "X") {
+        xCount++;
+      }
+      if (B[i] == "O") {
+        oCount++;
+      }
+    }
+    if (xCount == BequalD) {
+      return 1;
+    }
+    if (oCount == BequalD) {
+      return 2;
+    }
+  }
+  return win;
+}
+
+function checkBDiagonal(c, r) {
+  var win = 0;
+  var xCount1, oCount1, xCount2, oCount2;
+  xCount1 = 0;
+  oCount1 = 0;
+  xCount2 = 0;
+  oCount2 = 0;
+
+  for (d=0; d<BequalD; d++) {
+    i = getBindex(d, d);
+
+    if (B[i] == "X") {
+      xCount1++;
+    }
+    if (B[i] == "O") {
+      oCount1++;
+    }
+ }
+
+ for (d=0; d<BequalD; d++) {
+   i = getBindex(d, BequalD-1-d);
+
+   if (B[i] == "X") {
+     xCount2++;
+   }
+   if (B[i] == "O") {
+     oCount2++;
+   }
+ }
+
+  if (xCount1 == BequalD) {
+   return 1;
+  }
+  if (oCount1 == BequalD) {
+   return 2;
+  }
+  if (xCount2 == BequalD) {
+   return 1;
+  }
+  if (oCount2 == BequalD) {
    return 2;
   }
  return win;
