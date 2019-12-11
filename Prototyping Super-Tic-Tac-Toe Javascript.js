@@ -19,7 +19,7 @@ var BcellD = l/BequalD;
 var FcellD = Math.pow(BequalD, 2);
 var nextMoveCboard = 0;
 var nextMoveRboard = 0;
-var freePlay = 1;
+var freePlay = 0;
 document.body.style.backgroundColor = "black";
 
 //CANVAS 1 SCOREBOARD
@@ -122,9 +122,6 @@ console.log(B);
   document.onmousedown = function() { //event listener for if mouse is pressed
   //call function here
   allPlacingCode(x, y); // function of all placing, 2 player AND AI
-  if (firstMove == 0) {
-    firstMove = 1;
-  }
 }
 
 function getIndex(c, r, Bc, Br) {
@@ -151,9 +148,7 @@ function allPlacingCode(x, y) {
   console.log("Field C: " + c + " Field R: "+ r + " Board C: " + Bc + " Board R: " + Br);
   i = getIndex(c, r, Bc, Br);
   Bi = getBindex(Bc, Br);
-  checkBoard(Bc,Br);
-
-  console.log("board index " + nextBi + " - " + nextMoveCboard + " , " + nextMoveRboard);
+  //console.log("board index " + nextBi + " - " + nextMoveCboard + " , " + nextMoveRboard);
   if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (freePlay == 0 || (freePlay == 1 && Bc == nextMoveCboard && Br == nextMoveRboard && B[Bi] == "")) && gameStop == false) {
     if (lastPressed == "X") {
       F[i] = "O";
@@ -174,23 +169,20 @@ function allPlacingCode(x, y) {
       nextMoveCboard = c;
       nextMoveRboard = r;
     }
-      if (B[Bi] != "") {
-        firstMove = 0;
-      }
     console.log("Next C Move on Board: " + nextMoveCboard + " Next R Move on Board: " + nextMoveRboard);
   }
+  checkBoard(Bc,Br);
 }
 
 function checkBoard(Bc,Br){
   var Bi = getBindex(Bc,Br);
   if (B[Bi] != ""){
-    freePlay = 1;
-  }
-  else {
     freePlay = 0;
   }
+  else {
+    freePlay = 1;
+  }
 }
-
 
 function placing(c, r, symbol, Br, Bc) {
   ctx2.fillStyle = "#FFFFFF";
@@ -204,12 +196,12 @@ function placing(c, r, symbol, Br, Bc) {
     ctx2.fillStyle = "blue";
     ctx2.font = "100px Arial";
     ctx2.fillText(symbol, (Bc*3*cellD) + cellD/3, (Br+1)*3*cellD - cellD/2.5);
-    Bcount += 1;
+    //Bcount += 1;
   } else if (B[Bi] == "X") {
     ctx2.fillStyle = "blue";
     ctx2.font = "100px Arial";
     ctx2.fillText(symbol, (Bc*3*cellD) + cellD/3 + BequalD-1, (Br+1)*3*cellD - cellD/2.5);
-    Bcount += 1;
+    //Bcount += 1;
   }
 }
 
@@ -246,9 +238,11 @@ function checkB3inRow(Bc, Br) {
   if (checkBColumn(Bc, Br) == 1 || checkBRow(Bc, Br) == 1 || checkBDiagonal(Bc, Br) == 1) {
     gameStop = true;
     console.log("X won the super game");
+    xWin+= 1;
     } else if (checkBColumn(Bc, Br) == 2 || checkBRow(Bc, Br) == 2 || checkBDiagonal(Bc, Br) == 2) {
     gameStop = true;
     console.log("O won the super game");
+    oWin+= 1;
     } else if (Bcount == 9) {
     gameStop = true;
     console.log("Super game is a tie");
@@ -447,4 +441,66 @@ function checkBDiagonal(c, r) {
    return 2;
   }
  return win;
+}
+
+document.onkeypress = function keyboardR(event) {
+  // call function here
+  var keyCode = event.which;
+  if (keyCode == 114) {
+    reset();
+  }
+}
+
+function reset() {
+  gamestop = false;
+  lastPressed = "O";
+  Bcount = 0;
+
+  document.body.style.backgroundColor = "black";
+
+  //CANVAS 1 SCOREBOARD
+  var canvas = document.getElementById("Canvas1");
+  var ctx = canvas.getContext("2d");
+  var cwidth = 200;
+  var cheight = 100;
+
+    ctx.fillStyle = "black"; // fills canvas in black
+    ctx.fillRect(0, 0, 200, 100); // coordinates
+    ctx.strokeStyle = '#FFFFFF'; // fills border in white
+    ctx.strokeRect(0, 0, 200, 100); // coordinates
+    ctx.lineWidth = 4; // line width
+    ctx.stroke();
+
+    ctx.fillStyle = "#FFFFFF"; // fills in text with white
+    ctx.font = "20px Arial"; // size and font
+    ctx.fillText("Scoreboard", 10, 20); // text, x, y
+    ctx.fillText("X: ", 10, 50); // text, x, y
+    ctx.fillText("O: ", 100, 50);// text, x, y
+
+  //CANVAS 2 PLAYING BOARD
+  var canvas2 = document.getElementById("Canvas2");
+  var ctx2 = canvas2.getContext("2d");
+  var length = l;
+  var cellD = l/FcellD;
+  var BoardCellD = l/BcellD;
+
+    ctx2.fillStyle = "black"; // fills canvas in black
+    ctx2.fillRect(0, 0, l, l); // coordinates
+    ctx2.strokeStyle = '#FFFFFF'; // fills border in white
+    ctx2.strokeRect(0, 0, l, l); // coordinates
+    ctx2.lineWidth = 4; // line width
+
+    FDrawlines();
+    BDrawlines();
+
+    B = [];
+    F = [];
+
+    for (let i = 0; i < FequalD * FequalD * BequalD * BequalD; i++) { // first two multiplying is the cells in the field, the second two are the number of fields in the board
+      F.push("");
+    }
+
+    for (let i = 0; i < BequalD * BequalD; i++) {
+      B.push("");
+    }
 }
