@@ -22,7 +22,7 @@ var nextMoveRboard = 0;
 var freePlay = 1;
 document.body.style.backgroundColor = "black";
 
-canvasBigger();
+//canvasBigger();
 
 function canvasBigger() {
   if ((BequalD && FequalD) == 4) {
@@ -70,6 +70,19 @@ var BoardCellD = l/BcellD;
 
   FDrawlines();
   BDrawlines();
+
+  //CANVAS 3 STATUS BAR
+  var canvas3 = document.getElementById("Canvas3"); // creates canvas 3, status
+  var ctx3 = canvas3.getContext("2d");
+  var cwidth3 = 200;
+  var cheight3 = 100;
+
+    ctx3.fillStyle = "black"; // fills canvas in black
+    ctx3.fillRect(0, 0, 200, 100); // coordinates
+    ctx3.strokeStyle = '#FFFFFF'; // fills border in white
+    ctx3.strokeRect(0, 0, 200, 100); // coordinate
+    ctx3.lineWidth = 4; // line width
+    ctx3.stroke();
 
   function BDrawlines() {
     for (let Vlines = 1; Vlines < BequalD; Vlines ++) {
@@ -218,6 +231,12 @@ function placing(c, r, symbol, Br, Bc) {
     ctx2.font = "100px Arial";
     ctx2.fillText(symbol, (Bc*3*cellD) + cellD/3 + BequalD-1, (Br+1)*3*cellD - cellD/2.5);
   }
+
+    if (symbol == "X"&& B[Bi] == "") {
+      updateStatus("It is player O's turn");
+    } else if (symbol == "O" && B[Bi] == "") {
+      updateStatus("It is player X's turn");
+    }
 }
 
 function ThreeinRow(c, r, Bc, Br) {
@@ -228,21 +247,20 @@ function ThreeinRow(c, r, Bc, Br) {
 }
 
 function check3inRow(c, r, Bc, Br) {
-
   if (checkColumn(c, r, Bc, Br) == 1 || checkRow(c, r, Bc, Br) == 1 || checkDiagonal(c, r, Bc, Br) == 1) {
-    console.log("X won");
     Bi = getBindex(Bc, Br);
     B[Bi] = "X";
     prevMoveCboard = Bc;
     prevMoveRboard = Br;
     Bcount++;
+    updateStatus("X has won field (" + Bc + " , " + Br + ")!");
   } else if (checkColumn(c, r, Bc, Br) == 2 || checkRow(c, r, Bc, Br) == 2 || checkDiagonal(c, r, Bc, Br) == 2) {
     Bi = getBindex(Bc, Br);
     B[Bi] = "O";
     prevMoveCboard = Bc;
     prevMoveRboard = Br;
     Bcount++;
-    console.log("O won");
+    updateStatus("O has won field (" + Bc + " , " + Br + ")!");
   } else {
     prevMoveCboard = -1;
     prevMoveRboard = -1;
@@ -252,15 +270,15 @@ function check3inRow(c, r, Bc, Br) {
 function checkB3inRow(Bc, Br) {
   if (checkBColumn(Bc, Br) == 1 || checkBRow(Bc, Br) == 1 || checkBDiagonal(Bc, Br) == 1) {
     gameStop = true;
-    console.log("X won the super game");
+    updateStatus("X won the Super Game!")
     xWin+= 1;
     } else if (checkBColumn(Bc, Br) == 2 || checkBRow(Bc, Br) == 2 || checkBDiagonal(Bc, Br) == 2) {
     gameStop = true;
-    console.log("O won the super game");
+    updateStatus("O won the Super Game!")
     oWin+= 1;
   } else if (Bcount == (Math.pow(BequalD, 2))) {
     gameStop = true;
-    console.log("Super game is a tie");
+    updateStatus("Super Game is a tie!")
   }
 }
 
@@ -520,4 +538,17 @@ function reset() {
     nextMoveCboard = 0;
     nextMoveRboard = 0;
     firstMove = 0;
+}
+
+function updateStatus(status) {
+  ctx3.fillStyle = "black"; // fills canvas in black
+  ctx3.fillRect(0, 0, 200, 100); // coordinates
+  ctx3.strokeStyle = '#FFFFFF'; // fills border in white
+  ctx3.strokeRect(0, 0, 200, 100); // coordinate
+  ctx3.lineWidth = 4; // line width
+  ctx3.stroke();
+
+  ctx3.fillStyle = "#FFFFFF";
+  ctx3.font = "18px Arial";
+  ctx3.fillText(status, 14, 50); // text, x, y
 }
