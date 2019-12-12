@@ -19,7 +19,7 @@ var BcellD = l/BequalD;
 var FcellD = Math.pow(BequalD, 2);
 var nextMoveCboard = 0;
 var nextMoveRboard = 0;
-var freePlay = 0;
+var freePlay = 1;
 document.body.style.backgroundColor = "black";
 
 //CANVAS 1 SCOREBOARD
@@ -148,8 +148,9 @@ function allPlacingCode(x, y) {
   console.log("Field C: " + c + " Field R: "+ r + " Board C: " + Bc + " Board R: " + Br);
   i = getIndex(c, r, Bc, Br);
   Bi = getBindex(Bc, Br);
-  //console.log("board index " + nextBi + " - " + nextMoveCboard + " , " + nextMoveRboard);
-  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (freePlay == 0 || (freePlay == 1 && Bc == nextMoveCboard && Br == nextMoveRboard && B[Bi] == "")) && gameStop == false) {
+    checkBoard(nextMoveCboard,nextMoveRboard);
+
+  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (freePlay == 0 && B[Bi] == "") || (freePlay == 1 && Bc == nextMoveCboard && Br == nextMoveRboard && B[Bi] == "")) && gameStop == false) {
     if (lastPressed == "X") {
       F[i] = "O";
       ThreeinRow(c, r, Bc, Br);
@@ -169,9 +170,12 @@ function allPlacingCode(x, y) {
       nextMoveCboard = c;
       nextMoveRboard = r;
     }
+    if (firstMove == 0) {
+      firstMove = 1;
+    }
     console.log("Next C Move on Board: " + nextMoveCboard + " Next R Move on Board: " + nextMoveRboard);
   }
-  checkBoard(Bc,Br);
+
 }
 
 function checkBoard(Bc,Br){
@@ -493,14 +497,16 @@ function reset() {
     FDrawlines();
     BDrawlines();
 
-    B = [];
-    F = [];
-
     for (let i = 0; i < FequalD * FequalD * BequalD * BequalD; i++) { // first two multiplying is the cells in the field, the second two are the number of fields in the board
-      F.push("");
+      F[i] = "";
     }
 
     for (let i = 0; i < BequalD * BequalD; i++) {
-      B.push("");
+      B[i] = "";
     }
+
+    freePlay = 1;
+    nextMoveCboard = 0;
+    nextMoveRboard = 0;
+    firstMove = 0;
 }
