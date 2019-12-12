@@ -22,6 +22,20 @@ var nextMoveRboard = 0;
 var freePlay = 1;
 document.body.style.backgroundColor = "black";
 
+canvasBigger();
+
+function canvasBigger() {
+  if ((BequalD && FequalD) == 4) {
+    l = 400;
+  }
+  if ((BequalD && FequalD) == 5) {
+    l = 500;
+  }
+  if ((BequalD && FequalD) == 6) {
+    l = 600;
+  }
+}
+
 //CANVAS 1 SCOREBOARD
 var canvas = document.getElementById("Canvas1");
 var ctx = canvas.getContext("2d");
@@ -82,7 +96,7 @@ var BoardCellD = l/BcellD;
       ctx2.strokeStyle = 'white';
       ctx2.moveTo(l*Vlines/FcellD, 0);
       ctx2.lineTo(l*Vlines/FcellD, l);
-      ctx2.lineWidth = 3;
+      ctx2.lineWidth = 1;
       ctx2.stroke();
     }
 
@@ -90,7 +104,7 @@ var BoardCellD = l/BcellD;
       ctx2.strokeStyle = 'white';
       ctx2.moveTo(0, l*Hlines/FcellD);
       ctx2.lineTo(l, l*Hlines/FcellD);
-      ctx2.lineWidth = 3;
+      ctx2.lineWidth = 1;
       ctx2.stroke();
     }
   }
@@ -148,8 +162,7 @@ function allPlacingCode(x, y) {
   console.log("Field C: " + c + " Field R: "+ r + " Board C: " + Bc + " Board R: " + Br);
   i = getIndex(c, r, Bc, Br);
   Bi = getBindex(Bc, Br);
-    checkBoard(nextMoveCboard,nextMoveRboard);
-
+  checkBoard(nextMoveCboard,nextMoveRboard);
   if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (freePlay == 0 && B[Bi] == "") || (freePlay == 1 && Bc == nextMoveCboard && Br == nextMoveRboard && B[Bi] == "")) && gameStop == false) {
     if (lastPressed == "X") {
       F[i] = "O";
@@ -200,12 +213,10 @@ function placing(c, r, symbol, Br, Bc) {
     ctx2.fillStyle = "blue";
     ctx2.font = "100px Arial";
     ctx2.fillText(symbol, (Bc*3*cellD) + cellD/3, (Br+1)*3*cellD - cellD/2.5);
-    //Bcount += 1;
   } else if (B[Bi] == "X") {
     ctx2.fillStyle = "blue";
     ctx2.font = "100px Arial";
     ctx2.fillText(symbol, (Bc*3*cellD) + cellD/3 + BequalD-1, (Br+1)*3*cellD - cellD/2.5);
-    //Bcount += 1;
   }
 }
 
@@ -247,7 +258,7 @@ function checkB3inRow(Bc, Br) {
     gameStop = true;
     console.log("O won the super game");
     oWin+= 1;
-    } else if (Bcount == 9) {
+  } else if (Bcount == (Math.pow(BequalD, 2))) {
     gameStop = true;
     console.log("Super game is a tie");
   }
