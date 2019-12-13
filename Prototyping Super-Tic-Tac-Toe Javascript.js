@@ -4,8 +4,8 @@ let lastPressed = "O";
 let firstMove = 0;
 let fieldCells = "";
 let boardCells = "";
-let BequalD = 3;
-let FequalD = 3;
+let BequalD = 4;
+let FequalD = 4;
 let l = 300;
 let Vlines, Hlines;
 var x, y;
@@ -21,20 +21,6 @@ var nextMoveCboard = 0;
 var nextMoveRboard = 0;
 var freePlay = 1;
 document.body.style.backgroundColor = "black";
-
-//canvasBigger();
-
-function canvasBigger() {
-  if ((BequalD && FequalD) == 4) {
-    l = 400;
-  }
-  if ((BequalD && FequalD) == 5) {
-    l = 500;
-  }
-  if ((BequalD && FequalD) == 6) {
-    l = 600;
-  }
-}
 
 //CANVAS 1 SCOREBOARD
 var canvas = document.getElementById("Canvas1");
@@ -253,7 +239,15 @@ function check3inRow(c, r, Bc, Br) {
     prevMoveCboard = Bc;
     prevMoveRboard = Br;
     Bcount++;
-    updateStatus("X has won field (" + Bc + " , " + Br + ")!");
+    updateStatus("X has won field (" + Bc + " , " + Br + ")!"/* + "\nIt is player O's turn"*/);
+    /*var txt = updateStatus();
+    var lines = txt.split("\n");
+
+    for (var i=0; i<lines.length; i++) {
+      ctx3.fillStyle = "#FFFFFF";
+      ctx3.font = "18px Arial";
+      ctx3.fillText(lines[i], 14, 75);
+    }*/
   } else if (checkColumn(c, r, Bc, Br) == 2 || checkRow(c, r, Bc, Br) == 2 || checkDiagonal(c, r, Bc, Br) == 2) {
     Bi = getBindex(Bc, Br);
     B[Bi] = "O";
@@ -270,15 +264,17 @@ function check3inRow(c, r, Bc, Br) {
 function checkB3inRow(Bc, Br) {
   if (checkBColumn(Bc, Br) == 1 || checkBRow(Bc, Br) == 1 || checkBDiagonal(Bc, Br) == 1) {
     gameStop = true;
-    updateStatus("X won the Super Game!")
+    updateStatus("X won the Super Game!");
     xWin+= 1;
+    printWinScore("X");
     } else if (checkBColumn(Bc, Br) == 2 || checkBRow(Bc, Br) == 2 || checkBDiagonal(Bc, Br) == 2) {
     gameStop = true;
-    updateStatus("O won the Super Game!")
+    updateStatus("O won the Super Game!");
     oWin+= 1;
+    printWinScore("O");
   } else if (Bcount == (Math.pow(BequalD, 2))) {
     gameStop = true;
-    updateStatus("Super Game is a tie!")
+    updateStatus("Super Game is a tie!");
   }
 }
 
@@ -510,6 +506,11 @@ function reset() {
     ctx.fillText("X: ", 10, 50); // text, x, y
     ctx.fillText("O: ", 100, 50);// text, x, y
 
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "20px Arial";
+    ctx.fillText("X: " + xWin, 10, 50);
+    ctx.fillText("O: " + oWin, 100, 50);
+
   //CANVAS 2 PLAYING BOARD
   var canvas2 = document.getElementById("Canvas2");
   var ctx2 = canvas2.getContext("2d");
@@ -549,6 +550,46 @@ function updateStatus(status) {
   ctx3.stroke();
 
   ctx3.fillStyle = "#FFFFFF";
-  ctx3.font = "18px Arial";
-  ctx3.fillText(status, 14, 50); // text, x, y
+  ctx3.font = "16px Arial";
+  ctx3.fillText(status, 22, 50); // text, x, y
+}
+
+function printWinScore(winner) {
+  if (winner == "X") {
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, 200, 100);
+  ctx.strokeStyle = '#FFFFFF';
+  ctx.strokeRect(0, 0, 200, 100);
+  ctx.lineWidth = 5;
+  ctx.stroke();
+
+  ctx.fillStyle = "#FFFFFF";
+  ctx.font = "20px Arial";
+  ctx.fillText("Scoreboard", 10, 20); // text, x, y
+  ctx.fillText("X: ", 10, 50);
+  ctx.fillText("O: ", 100, 50);
+
+  ctx.fillStyle = "#FFFFFF";
+  ctx.font = "20px Arial";
+  ctx.fillText("X: " + xWin, 10, 50);
+  ctx.fillText("O: " + oWin, 100, 50);
+} else if (winner == "O") {
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, 200, 100);
+  ctx.strokeStyle = '#FFFFFF';
+  ctx.strokeRect(0, 0, 200, 100);
+  ctx.lineWidth = 5;
+  ctx.stroke();
+
+  ctx.fillStyle = "#FFFFFF";
+  ctx.font = "20px Arial";
+  ctx.fillText("Scoreboard", 10, 20); // text, x, y
+  ctx.fillText("X: ", 10, 50);
+  ctx.fillText("O: ", 100, 50);
+
+  ctx.fillStyle = "#FFFFFF";
+  ctx.font = "20px Arial";
+  ctx.fillText("X: " + xWin, 10, 50);
+  ctx.fillText("O: " + oWin, 100, 50);
+ }
 }
