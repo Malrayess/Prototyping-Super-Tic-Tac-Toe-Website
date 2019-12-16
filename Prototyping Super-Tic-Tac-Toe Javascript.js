@@ -4,9 +4,9 @@ let lastPressed = "O";
 let firstMove = 0;
 let fieldCells = "";
 let boardCells = "";
-let BequalD = 4;
-let FequalD = 4;
-let l = 300;
+let BequalD = 9;
+let FequalD = 9;
+let l = BequalD * 100;
 let Vlines, Hlines;
 var x, y;
 var fields = 0;
@@ -47,6 +47,10 @@ var ctx2 = canvas2.getContext("2d");
 var length = l;
 var cellD = l/FcellD;
 var BoardCellD = l/BcellD;
+
+canvas2.width = BequalD * 100;
+canvas2.height = BequalD * 100;
+
 
   ctx2.fillStyle = "black"; // fills canvas in black
   ctx2.fillRect(0, 0, l, l); // coordinates
@@ -202,20 +206,20 @@ function checkBoard(Bc,Br){
 
 function placing(c, r, symbol, Br, Bc) {
   ctx2.fillStyle = "#FFFFFF";
-  ctx2.font = "20px Arial";
-  ctx2.fillText(symbol, c*cellD + Bc*3*cellD + cellD/4, (r+1)*cellD + Br*3*cellD - cellD/4);
+  ctx2.font = autoTextSize();
+  ctx2.fillText(symbol, c*cellD + Bc*FequalD*cellD + cellD/(FequalD+1), (r+1)*cellD + Br*FequalD*cellD - cellD/(FequalD+1));
   count += 1;
 
   Bi = getBindex(Bc, Br);
   console.log(B[Bi]);
   if (B[Bi] == "O") {
     ctx2.fillStyle = "blue";
-    ctx2.font = "100px Arial";
-    ctx2.fillText(symbol, (Bc*3*cellD) + cellD/3, (Br+1)*3*cellD - cellD/2.5);
+    ctx2.font = autoBoardTextSize();
+    ctx2.fillText(symbol, (Bc*BequalD*cellD) + cellD/BequalD, (Br+1)*BequalD*cellD - cellD/2.5);
   } else if (B[Bi] == "X") {
     ctx2.fillStyle = "blue";
-    ctx2.font = "100px Arial";
-    ctx2.fillText(symbol, (Bc*3*cellD) + cellD/3 + BequalD-1, (Br+1)*3*cellD - cellD/2.5);
+    ctx2.font = autoBoardTextSize();
+    ctx2.fillText(symbol, (Bc*BequalD*cellD) + cellD/BequalD + BequalD-1, (Br+1)*BequalD*cellD - cellD/2.5);
   }
 
     if (symbol == "X"&& B[Bi] == "") {
@@ -592,4 +596,23 @@ function printWinScore(winner) {
   ctx.fillText("X: " + xWin, 10, 50);
   ctx.fillText("O: " + oWin, 100, 50);
  }
+}
+
+function autoTextSize() {
+  if (BequalD == 2 && FequalD == 2) {
+      ctx2.font = "40px Arial";
+    } else if (BequalD == 3 && FequalD == 3) {
+    ctx2.font = "20px Arial";
+  } else if (BequalD == 4 && FequalD == 4) {
+    ctx2.font = "15px Arial" ;
+  }
+}
+function autoBoardTextSize() {
+  if (BequalD == 2 && FequalD == 2) {
+      ctx2.font = "120px Arial";
+    } if (BequalD == 3 && FequalD == 3) {
+    ctx2.font = "100px Arial";
+  } else if (BequalD == 4 && FequalD == 4) {
+    ctx2.font = "75px Arial" ;
+  }
 }
