@@ -4,8 +4,8 @@ let lastPressed = "O";
 let firstMove = 0;
 let fieldCells = "";
 let boardCells = "";
-let BequalD = 9;
-let FequalD = 9;
+var BequalD;
+var FequalD;
 let l = BequalD * 100;
 let Vlines, Hlines;
 var x, y;
@@ -21,6 +21,17 @@ var nextMoveCboard = 0;
 var nextMoveRboard = 0;
 var freePlay = 1;
 document.body.style.backgroundColor = "black";
+
+function dimensionChecker() {
+  if (document.getElementById("fieldDimensions").value >= 2) {
+    FequalD = document.getElementById("fieldDimensions").value;
+    console.log(FequalD);
+  }
+  if (document.getElementById("boardDimensions").value >= 2) {
+    BequalD = document.getElementById("boardDimensions").value;
+    console.log(BequalD);
+  }
+}
 
 //CANVAS 1 SCOREBOARD
 var canvas = document.getElementById("Canvas1");
@@ -50,7 +61,6 @@ var BoardCellD = l/BcellD;
 
 canvas2.width = BequalD * 100;
 canvas2.height = BequalD * 100;
-
 
   ctx2.fillStyle = "black"; // fills canvas in black
   ctx2.fillRect(0, 0, l, l); // coordinates

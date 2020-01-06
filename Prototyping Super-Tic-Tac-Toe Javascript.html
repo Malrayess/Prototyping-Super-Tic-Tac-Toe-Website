@@ -8,8 +8,11 @@
     <h1 id="title">Super Tic-Tac-Toe!</h1>
     <h3 id="creator">By: Maher Al-Rayess</h3>
   <body>
+    <h3> Field Dimensions: <input type="text" id="fieldDimensions"></h3>
+    <h3> Board Dimensions: <input type="text" id="boardDimensions"></h3>
     <!-- Buttons go here along with the amount of fields wanted -->
     <button type="button" onclick="reset()">Reset button(Or you can use 'r' on the keyboard!)</button>
+    <button type="button" onclick="dimensionChecker()">Submit Dimensions</button>
 
     <p>&nbsp;</p>
 
@@ -49,5 +52,6 @@
   #Canvas3 {
     margin: 10px;
   }
+
   </style>
 </html>
