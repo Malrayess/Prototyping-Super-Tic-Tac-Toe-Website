@@ -1,57 +1,57 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
+<head>
 
-      <meta charset="utf-8">
-      <title>Super Tic-Tac-Toe Game</title>
-  </head>
-    <h1 id="title">Super Tic-Tac-Toe!</h1>
-    <h3 id="creator">By: Maher Al-Rayess</h3>
-  <body>
-    <h3> Field Dimensions: <input type="text" id="fieldDimensions"></h3>
-    <h3> Board Dimensions: <input type="text" id="boardDimensions"></h3>
-    <!-- Buttons go here along with the amount of fields wanted -->
-    <button type="button" onclick="reset()">Reset button(Or you can use 'r' on the keyboard!)</button>
-    <button type="button" onclick="dimensionChecker()">Submit Dimensions</button>
+  <meta charset="utf-8">
+  <title>Super Tic-Tac-Toe Game</title>
+</head>
+<h1 id="title">Super Tic-Tac-Toe!</h1>
+<h3 id="creator">By: Maher Al-Rayess</h3>
+<body>
+  <h3> Field Dimensions: <input type="text" id="fieldDimensions" value="3"></h3>
+  <h3> Board Dimensions: <input type="text" id="boardDimensions" value="3"></h3>
+  <!-- Buttons go here along with the amount of fields wanted -->
+  <button type="button" onclick="reset()">Reset button(Or you can use 'r' on the keyboard!)</button>
+  <button type="button" onclick="dimensionChecker(), reset()">Submit Dimensions</button>
 
-    <p>&nbsp;</p>
+  <p>&nbsp;</p>
 
-    <table>
-        <td><canvas id="Canvas1" width="200" height="100" style="border: 5px solid #FFFFFF;"></canvas></td>
-        <td><canvas id="Canvas3" width="200" height="100" style="border: 5px solid #FFFFFF;"></canvas></td>
-    </table>
+  <table>
+    <td><canvas id="Canvas1" width="200" height="100" style="border: 5px solid #FFFFFF;"></canvas></td>
+    <td><canvas id="Canvas3" width="200" height="100" style="border: 5px solid #FFFFFF;"></canvas></td>
+  </table>
 
-      <table2>
-        <!--<td><canvas id="Canvas2" onkeypress="keyboardR(event)" width="300" height="300" style="border: 5px solid #FFFFFF;"></canvas></td>-->
-        <td><canvas id="Canvas2" onkeypress="keyboardR(event)" style="border: 5px solid #FFFFFF;"></canvas></td>
-      </table2>
+  <table2>
+    <!--<td><canvas id="Canvas2" onkeypress="keyboardR(event)" width="300" height="300" style="border: 5px solid #FFFFFF;"></canvas></td>-->
+    <td><canvas id="Canvas2" onkeypress="keyboardR(event)" style="border: 5px solid #FFFFFF;"></canvas></td>
+  </table2>
 
-      <script src="Prototyping Super-Tic-Tac-Toe Javascript.js"></script>
+  <script src="Prototyping Super-Tic-Tac-Toe Javascript.js"></script>
 
-  </body>
+</body>
 
-  <style>
-    h1 {
-      color: white;
-  }
-    h3 {
-      color: white;
-  }
-  button {
-    height: 75px;
-    width: 200px;
-    background-color: black;
-    color: white;
-    text-align: center;
-    display: inline-block;
-    font-size: 16px;
-  }
-  #Canvas1 {
-    margin: 10px;
-  }
-  #Canvas3 {
-    margin: 10px;
-  }
+<style>
+h1 {
+  color: white;
+}
+h3 {
+  color: white;
+}
+button {
+  height: 75px;
+  width: 200px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+}
+#Canvas1 {
+  margin: 10px;
+}
+#Canvas3 {
+  margin: 10px;
+}
 
-  </style>
+</style>
 </html>

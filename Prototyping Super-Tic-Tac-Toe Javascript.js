@@ -4,8 +4,8 @@ let lastPressed = "O";
 let firstMove = 0;
 let fieldCells = "";
 let boardCells = "";
-var BequalD;
-var FequalD;
+var BequalD = document.getElementById("fieldDimensions").value;
+var FequalD = document.getElementById("boardDimensions").value;
 let l = BequalD * 100;
 let Vlines, Hlines;
 var x, y;
@@ -16,7 +16,7 @@ var oWin = 0;
 let theme = "Dark";
 var main = false;
 var BcellD = l/BequalD;
-var FcellD = Math.pow(BequalD, 2);
+var FcellD = (BequalD*FequalD);
 var nextMoveCboard = 0;
 var nextMoveRboard = 0;
 var freePlay = 1;
@@ -25,7 +25,7 @@ document.body.style.backgroundColor = "black";
 function dimensionChecker() {
   if (document.getElementById("fieldDimensions").value >= 2) {
     FequalD = document.getElementById("fieldDimensions").value;
-    console.log(FequalD);
+    console.log(FequalD)
   }
   if (document.getElementById("boardDimensions").value >= 2) {
     BequalD = document.getElementById("boardDimensions").value;
@@ -39,114 +39,113 @@ var ctx = canvas.getContext("2d");
 var cwidth = 200;
 var cheight = 100;
 
-  ctx.fillStyle = "black"; // fills canvas in black
-  ctx.fillRect(0, 0, 200, 100); // coordinates
-  ctx.strokeStyle = '#FFFFFF'; // fills border in white
-  ctx.strokeRect(0, 0, 200, 100); // coordinates
-  ctx.lineWidth = 4; // line width
-  ctx.stroke();
+ctx.fillStyle = "black"; // fills canvas in black
+ctx.fillRect(0, 0, 200, 100); // coordinates
+ctx.strokeStyle = '#FFFFFF'; // fills border in white
+ctx.strokeRect(0, 0, 200, 100); // coordinates
+ctx.lineWidth = 4; // line width
+ctx.stroke();
 
-  ctx.fillStyle = "#FFFFFF"; // fills in text with white
-  ctx.font = "20px Arial"; // size and font
-  ctx.fillText("Scoreboard", 10, 20); // text, x, y
-  ctx.fillText("X: ", 10, 50); // text, x, y
-  ctx.fillText("O: ", 100, 50);// text, x, y
+ctx.fillStyle = "#FFFFFF"; // fills in text with white
+ctx.font = "20px Arial"; // size and font
+ctx.fillText("Scoreboard", 10, 20); // text, x, y
+ctx.fillText("X: ", 10, 50); // text, x, y
+ctx.fillText("O: ", 100, 50);// text, x, y
 
 //CANVAS 2 PLAYING BOARD
 var canvas2 = document.getElementById("Canvas2");
 var ctx2 = canvas2.getContext("2d");
-var length = l;
 var cellD = l/FcellD;
 var BoardCellD = l/BcellD;
 
 canvas2.width = BequalD * 100;
 canvas2.height = BequalD * 100;
 
-  ctx2.fillStyle = "black"; // fills canvas in black
-  ctx2.fillRect(0, 0, l, l); // coordinates
-  ctx2.strokeStyle = '#FFFFFF'; // fills border in white
-  ctx2.strokeRect(0, 0, l, l); // coordinates
-  ctx2.lineWidth = 4; // line width
+ctx2.fillStyle = "black"; // fills canvas in black
+ctx2.fillRect(0, 0, l, l); // coordinates
+ctx2.strokeStyle = '#FFFFFF'; // fills border in white
+ctx2.strokeRect(0, 0, l, l); // coordinates
+ctx2.lineWidth = 4; // line width
 
-  FDrawlines();
-  BDrawlines();
+FDrawlines();
+BDrawlines();
 
-  //CANVAS 3 STATUS BAR
-  var canvas3 = document.getElementById("Canvas3"); // creates canvas 3, status
-  var ctx3 = canvas3.getContext("2d");
-  var cwidth3 = 200;
-  var cheight3 = 100;
+//CANVAS 3 STATUS BAR
+var canvas3 = document.getElementById("Canvas3"); // creates canvas 3, status
+var ctx3 = canvas3.getContext("2d");
+var cwidth3 = 200;
+var cheight3 = 100;
 
-    ctx3.fillStyle = "black"; // fills canvas in black
-    ctx3.fillRect(0, 0, 200, 100); // coordinates
-    ctx3.strokeStyle = '#FFFFFF'; // fills border in white
-    ctx3.strokeRect(0, 0, 200, 100); // coordinate
-    ctx3.lineWidth = 4; // line width
-    ctx3.stroke();
+ctx3.fillStyle = "black"; // fills canvas in black
+ctx3.fillRect(0, 0, 200, 100); // coordinates
+ctx3.strokeStyle = '#FFFFFF'; // fills border in white
+ctx3.strokeRect(0, 0, 200, 100); // coordinate
+ctx3.lineWidth = 4; // line width
+ctx3.stroke();
 
-  function BDrawlines() {
-    for (let Vlines = 1; Vlines < BequalD; Vlines ++) {
-      ctx2.beginPath();
-      ctx2.strokeStyle = 'blue';
-      ctx2.moveTo(l*Vlines/BequalD, 0);
-      ctx2.lineTo(l*Vlines/BequalD, l);
-      ctx2.lineWidth = 5;
-      ctx2.stroke();
-    }
-
-    for (let Hlines = 1; Hlines < BequalD; Hlines ++) {
-      ctx2.beginPath();
-      ctx2.strokeStyle = 'blue';
-      ctx2.moveTo(0, l*Hlines/BequalD);
-      ctx2.lineTo(l, l*Hlines/BequalD);
-      ctx2.lineWidth = 5;
-      ctx2.stroke();
-    }
+function BDrawlines() {
+  for (let Vlines = 1; Vlines < BequalD; Vlines ++) {
+    ctx2.beginPath();
+    ctx2.strokeStyle = 'blue';
+    ctx2.moveTo(l*Vlines/BequalD, 0);
+    ctx2.lineTo(l*Vlines/BequalD, l);
+    ctx2.lineWidth = 5;
+    ctx2.stroke();
   }
 
-  function FDrawlines() {
-    for (let Vlines = 1; Vlines < FcellD; Vlines++) {
-      ctx2.strokeStyle = 'white';
-      ctx2.moveTo(l*Vlines/FcellD, 0);
-      ctx2.lineTo(l*Vlines/FcellD, l);
-      ctx2.lineWidth = 1;
-      ctx2.stroke();
-    }
+  for (let Hlines = 1; Hlines < BequalD; Hlines ++) {
+    ctx2.beginPath();
+    ctx2.strokeStyle = 'blue';
+    ctx2.moveTo(0, l*Hlines/BequalD);
+    ctx2.lineTo(l, l*Hlines/BequalD);
+    ctx2.lineWidth = 5;
+    ctx2.stroke();
+  }
+}
 
-    for (let Hlines = 1; Hlines < FcellD; Hlines++) {
-      ctx2.strokeStyle = 'white';
-      ctx2.moveTo(0, l*Hlines/FcellD);
-      ctx2.lineTo(l, l*Hlines/FcellD);
-      ctx2.lineWidth = 1;
-      ctx2.stroke();
-    }
+function FDrawlines() {
+  for (let Vlines = 1; Vlines < FcellD; Vlines++) {
+    ctx2.strokeStyle = 'white';
+    ctx2.moveTo(l*Vlines/FcellD, 0);
+    ctx2.lineTo(l*Vlines/FcellD, l);
+    ctx2.lineWidth = 1;
+    ctx2.stroke();
   }
 
-  var B = [];
-  var F = [];
-
-  for (let i = 0; i < FequalD * FequalD * BequalD * BequalD; i++) { // first two multiplying is the cells in the field, the second two are the number of fields in the board
-    F.push("");
+  for (let Hlines = 1; Hlines < FcellD; Hlines++) {
+    ctx2.strokeStyle = 'white';
+    ctx2.moveTo(0, l*Hlines/FcellD);
+    ctx2.lineTo(l, l*Hlines/FcellD);
+    ctx2.lineWidth = 1;
+    ctx2.stroke();
   }
+}
 
-  for (let i = 0; i < BequalD * BequalD; i++) {
-    B.push("");
-  }
+var B = [];
+var F = [];
+
+for (let i = 0; i < FequalD * FequalD * BequalD * BequalD; i++) { // first two multiplying is the cells in the field, the second two are the number of fields in the board
+  F.push("");
+}
+
+for (let i = 0; i < BequalD * BequalD; i++) {
+  B.push("");
+}
 
 console.log(F);
 console.log(B);
 
-  document.onmousemove = function(evt) { // event listener for mouse
-    //call function here
-    mousePos = getMousePosition(evt); // gets mouse position by calling function, x y
-  }
-  function getMousePosition(evt) { // function that calculates mouse position
-    var rect = Canvas2.getBoundingClientRect(); // gets coords based off of the canvas 2
-      x = Math.round(evt.clientX - rect.left);
-      y = Math.round(evt.clientY - rect.top);
-  }
+document.onmousemove = function(evt) { // event listener for mouse
+  //call function here
+  mousePos = getMousePosition(evt); // gets mouse position by calling function, x y
+}
+function getMousePosition(evt) { // function that calculates mouse position
+  var rect = Canvas2.getBoundingClientRect(); // gets coords based off of the canvas 2
+  x = Math.round(evt.clientX - rect.left);
+  y = Math.round(evt.clientY - rect.top);
+}
 
-  document.onmousedown = function() { //event listener for if mouse is pressed
+document.onmousedown = function() { //event listener for if mouse is pressed
   //call function here
   allPlacingCode(x, y); // function of all placing, 2 player AND AI
 }
@@ -165,7 +164,7 @@ function getBindex(c, r) {
 
 function allPlacingCode(x, y) {
   var c, r, Bc, Br;
-//add board c,r defined, helps with placing code or drawing
+  //add board c,r defined, helps with placing code or drawing
   c = Math.floor((x/cellD) % FequalD);
   r = Math.floor((y/cellD) % FequalD);
   Bc = Math.floor(x/BcellD);
@@ -232,11 +231,11 @@ function placing(c, r, symbol, Br, Bc) {
     ctx2.fillText(symbol, (Bc*BequalD*cellD) + cellD/BequalD + BequalD-1, (Br+1)*BequalD*cellD - cellD/2.5);
   }
 
-    if (symbol == "X"&& B[Bi] == "") {
-      updateStatus("It is player O's turn");
-    } else if (symbol == "O" && B[Bi] == "") {
-      updateStatus("It is player X's turn");
-    }
+  if (symbol == "X"&& B[Bi] == "") {
+    updateStatus("It is player O's turn");
+  } else if (symbol == "O" && B[Bi] == "") {
+    updateStatus("It is player X's turn");
+  }
 }
 
 function ThreeinRow(c, r, Bc, Br) {
@@ -258,21 +257,21 @@ function check3inRow(c, r, Bc, Br) {
     var lines = txt.split("\n");
 
     for (var i=0; i<lines.length; i++) {
-      ctx3.fillStyle = "#FFFFFF";
-      ctx3.font = "18px Arial";
-      ctx3.fillText(lines[i], 14, 75);
-    }*/
-  } else if (checkColumn(c, r, Bc, Br) == 2 || checkRow(c, r, Bc, Br) == 2 || checkDiagonal(c, r, Bc, Br) == 2) {
-    Bi = getBindex(Bc, Br);
-    B[Bi] = "O";
-    prevMoveCboard = Bc;
-    prevMoveRboard = Br;
-    Bcount++;
-    updateStatus("O has won field (" + Bc + " , " + Br + ")!");
-  } else {
-    prevMoveCboard = -1;
-    prevMoveRboard = -1;
-  }
+    ctx3.fillStyle = "#FFFFFF";
+    ctx3.font = "18px Arial";
+    ctx3.fillText(lines[i], 14, 75);
+  }*/
+} else if (checkColumn(c, r, Bc, Br) == 2 || checkRow(c, r, Bc, Br) == 2 || checkDiagonal(c, r, Bc, Br) == 2) {
+  Bi = getBindex(Bc, Br);
+  B[Bi] = "O";
+  prevMoveCboard = Bc;
+  prevMoveRboard = Br;
+  Bcount++;
+  updateStatus("O has won field (" + Bc + " , " + Br + ")!");
+} else {
+  prevMoveCboard = -1;
+  prevMoveRboard = -1;
+}
 }
 
 function checkB3inRow(Bc, Br) {
@@ -281,7 +280,7 @@ function checkB3inRow(Bc, Br) {
     updateStatus("X won the Super Game!");
     xWin+= 1;
     printWinScore("X");
-    } else if (checkBColumn(Bc, Br) == 2 || checkBRow(Bc, Br) == 2 || checkBDiagonal(Bc, Br) == 2) {
+  } else if (checkBColumn(Bc, Br) == 2 || checkBRow(Bc, Br) == 2 || checkBDiagonal(Bc, Br) == 2) {
     gameStop = true;
     updateStatus("O won the Super Game!");
     oWin+= 1;
@@ -361,32 +360,32 @@ function checkDiagonal(c, r, Bc, Br) {
     if (F[i] == "O") {
       oCount1++;
     }
- }
+  }
 
- for (d=0; d<FequalD; d++) {
-   i = getIndex(d, FequalD-1-d, Bc, Br);
+  for (d=0; d<FequalD; d++) {
+    i = getIndex(d, FequalD-1-d, Bc, Br);
 
-   if (F[i] == "X") {
-     xCount2++;
-   }
-   if (F[i] == "O") {
-     oCount2++;
-   }
- }
+    if (F[i] == "X") {
+      xCount2++;
+    }
+    if (F[i] == "O") {
+      oCount2++;
+    }
+  }
 
   if (xCount1 == FequalD) {
-   return 1;
+    return 1;
   }
   if (oCount1 == FequalD) {
-   return 2;
+    return 2;
   }
   if (xCount2 == FequalD) {
-   return 1;
+    return 1;
   }
   if (oCount2 == FequalD) {
-   return 2;
+    return 2;
   }
- return win;
+  return win;
 }
 
 function checkBColumn(c, r) {
@@ -458,32 +457,32 @@ function checkBDiagonal(c, r) {
     if (B[i] == "O") {
       oCount1++;
     }
- }
+  }
 
- for (d=0; d<BequalD; d++) {
-   i = getBindex(d, BequalD-1-d);
+  for (d=0; d<BequalD; d++) {
+    i = getBindex(d, BequalD-1-d);
 
-   if (B[i] == "X") {
-     xCount2++;
-   }
-   if (B[i] == "O") {
-     oCount2++;
-   }
- }
+    if (B[i] == "X") {
+      xCount2++;
+    }
+    if (B[i] == "O") {
+      oCount2++;
+    }
+  }
 
   if (xCount1 == BequalD) {
-   return 1;
+    return 1;
   }
   if (oCount1 == BequalD) {
-   return 2;
+    return 2;
   }
   if (xCount2 == BequalD) {
-   return 1;
+    return 1;
   }
   if (oCount2 == BequalD) {
-   return 2;
+    return 2;
   }
- return win;
+  return win;
 }
 
 document.onkeypress = function keyboardR(event) {
@@ -507,52 +506,54 @@ function reset() {
   var cwidth = 200;
   var cheight = 100;
 
-    ctx.fillStyle = "black"; // fills canvas in black
-    ctx.fillRect(0, 0, 200, 100); // coordinates
-    ctx.strokeStyle = '#FFFFFF'; // fills border in white
-    ctx.strokeRect(0, 0, 200, 100); // coordinates
-    ctx.lineWidth = 4; // line width
-    ctx.stroke();
+  ctx.fillStyle = "black"; // fills canvas in black
+  ctx.fillRect(0, 0, 200, 100); // coordinates
+  ctx.strokeStyle = '#FFFFFF'; // fills border in white
+  ctx.strokeRect(0, 0, 200, 100); // coordinates
+  ctx.lineWidth = 4; // line width
+  ctx.stroke();
 
-    ctx.fillStyle = "#FFFFFF"; // fills in text with white
-    ctx.font = "20px Arial"; // size and font
-    ctx.fillText("Scoreboard", 10, 20); // text, x, y
-    ctx.fillText("X: ", 10, 50); // text, x, y
-    ctx.fillText("O: ", 100, 50);// text, x, y
+  ctx.fillStyle = "#FFFFFF"; // fills in text with white
+  ctx.font = "20px Arial"; // size and font
+  ctx.fillText("Scoreboard", 10, 20); // text, x, y
+  ctx.fillText("X: ", 10, 50); // text, x, y
+  ctx.fillText("O: ", 100, 50);// text, x, y
 
-    ctx.fillStyle = "#FFFFFF";
-    ctx.font = "20px Arial";
-    ctx.fillText("X: " + xWin, 10, 50);
-    ctx.fillText("O: " + oWin, 100, 50);
+  ctx.fillStyle = "#FFFFFF";
+  ctx.font = "20px Arial";
+  ctx.fillText("X: " + xWin, 10, 50);
+  ctx.fillText("O: " + oWin, 100, 50);
 
+  BcellD = l/BequalD;
+  FcellD = (BequalD*FequalD);
+  
   //CANVAS 2 PLAYING BOARD
   var canvas2 = document.getElementById("Canvas2");
   var ctx2 = canvas2.getContext("2d");
-  var length = l;
   var cellD = l/FcellD;
   var BoardCellD = l/BcellD;
 
-    ctx2.fillStyle = "black"; // fills canvas in black
-    ctx2.fillRect(0, 0, l, l); // coordinates
-    ctx2.strokeStyle = '#FFFFFF'; // fills border in white
-    ctx2.strokeRect(0, 0, l, l); // coordinates
-    ctx2.lineWidth = 4; // line width
+  ctx2.fillStyle = "black"; // fills canvas in black
+  ctx2.fillRect(0, 0, l, l); // coordinates
+  ctx2.strokeStyle = '#FFFFFF'; // fills border in white
+  ctx2.strokeRect(0, 0, l, l); // coordinates
+  ctx2.lineWidth = 4; // line width
 
-    FDrawlines();
-    BDrawlines();
+  FDrawlines();
+  BDrawlines();
 
-    for (let i = 0; i < FequalD * FequalD * BequalD * BequalD; i++) { // first two multiplying is the cells in the field, the second two are the number of fields in the board
-      F[i] = "";
-    }
+  for (let i = 0; i < FequalD * FequalD * BequalD * BequalD; i++) { // first two multiplying is the cells in the field, the second two are the number of fields in the board
+    F[i] = "";
+  }
 
-    for (let i = 0; i < BequalD * BequalD; i++) {
-      B[i] = "";
-    }
+  for (let i = 0; i < BequalD * BequalD; i++) {
+    B[i] = "";
+  }
 
-    freePlay = 1;
-    nextMoveCboard = 0;
-    nextMoveRboard = 0;
-    firstMove = 0;
+  freePlay = 1;
+  nextMoveCboard = 0;
+  nextMoveRboard = 0;
+  firstMove = 0;
 }
 
 function updateStatus(status) {
@@ -570,57 +571,58 @@ function updateStatus(status) {
 
 function printWinScore(winner) {
   if (winner == "X") {
-  ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, 200, 100);
-  ctx.strokeStyle = '#FFFFFF';
-  ctx.strokeRect(0, 0, 200, 100);
-  ctx.lineWidth = 5;
-  ctx.stroke();
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, 200, 100);
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.strokeRect(0, 0, 200, 100);
+    ctx.lineWidth = 5;
+    ctx.stroke();
 
-  ctx.fillStyle = "#FFFFFF";
-  ctx.font = "20px Arial";
-  ctx.fillText("Scoreboard", 10, 20); // text, x, y
-  ctx.fillText("X: ", 10, 50);
-  ctx.fillText("O: ", 100, 50);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "20px Arial";
+    ctx.fillText("Scoreboard", 10, 20); // text, x, y
+    ctx.fillText("X: ", 10, 50);
+    ctx.fillText("O: ", 100, 50);
 
-  ctx.fillStyle = "#FFFFFF";
-  ctx.font = "20px Arial";
-  ctx.fillText("X: " + xWin, 10, 50);
-  ctx.fillText("O: " + oWin, 100, 50);
-} else if (winner == "O") {
-  ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, 200, 100);
-  ctx.strokeStyle = '#FFFFFF';
-  ctx.strokeRect(0, 0, 200, 100);
-  ctx.lineWidth = 5;
-  ctx.stroke();
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "20px Arial";
+    ctx.fillText("X: " + xWin, 10, 50);
+    ctx.fillText("O: " + oWin, 100, 50);
+  } else if (winner == "O") {
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, 200, 100);
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.strokeRect(0, 0, 200, 100);
+    ctx.lineWidth = 5;
+    ctx.stroke();
 
-  ctx.fillStyle = "#FFFFFF";
-  ctx.font = "20px Arial";
-  ctx.fillText("Scoreboard", 10, 20); // text, x, y
-  ctx.fillText("X: ", 10, 50);
-  ctx.fillText("O: ", 100, 50);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "20px Arial";
+    ctx.fillText("Scoreboard", 10, 20); // text, x, y
+    ctx.fillText("X: ", 10, 50);
+    ctx.fillText("O: ", 100, 50);
 
-  ctx.fillStyle = "#FFFFFF";
-  ctx.font = "20px Arial";
-  ctx.fillText("X: " + xWin, 10, 50);
-  ctx.fillText("O: " + oWin, 100, 50);
- }
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "20px Arial";
+    ctx.fillText("X: " + xWin, 10, 50);
+    ctx.fillText("O: " + oWin, 100, 50);
+  }
 }
 
 function autoTextSize() {
   if (BequalD == 2 && FequalD == 2) {
-      ctx2.font = "40px Arial";
-    } else if (BequalD == 3 && FequalD == 3) {
+    ctx2.font = "40px Arial";
+  } else if (BequalD == 3 && FequalD == 3) {
     ctx2.font = "20px Arial";
   } else if (BequalD == 4 && FequalD == 4) {
     ctx2.font = "15px Arial" ;
   }
 }
+
 function autoBoardTextSize() {
   if (BequalD == 2 && FequalD == 2) {
-      ctx2.font = "120px Arial";
-    } if (BequalD == 3 && FequalD == 3) {
+    ctx2.font = "120px Arial";
+  } if (BequalD == 3 && FequalD == 3) {
     ctx2.font = "100px Arial";
   } else if (BequalD == 4 && FequalD == 4) {
     ctx2.font = "75px Arial" ;
