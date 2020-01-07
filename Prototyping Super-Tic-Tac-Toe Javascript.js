@@ -22,22 +22,22 @@ var nextMoveRboard = 0;
 var freePlay = 1;
 document.body.style.backgroundColor = "black";
 
-function dimensionChecker() {
-  if (document.getElementById("fieldDimensions").value >= 2) {
-    FequalD = document.getElementById("fieldDimensions").value;
-    console.log(FequalD)
+function dimensionChecker() { // function that receives input value from html slider to determine board dimensions and field dimensions
+  if (document.getElementById("fieldDimensions").value >= 2) { // if input is greater than or equal to 2
+    FequalD = document.getElementById("fieldDimensions").value; // field dimensions is equal to that input, determining the field cell dimensions
+    //console.log(FequalD);
   }
-  if (document.getElementById("boardDimensions").value >= 2) {
-    BequalD = document.getElementById("boardDimensions").value;
-    console.log(BequalD);
+  if (document.getElementById("boardDimensions").value >= 2) { // if input is greater than or equal to 2
+    BequalD = document.getElementById("boardDimensions").value; // board dimensions is equal to that input, determining the board cell dimensions
+    //console.log(BequalD);
   }
 }
 
 //CANVAS 1 SCOREBOARD
-var canvas = document.getElementById("Canvas1");
-var ctx = canvas.getContext("2d");
-var cwidth = 200;
-var cheight = 100;
+var canvas = document.getElementById("Canvas1"); // creates canvas 1, scoreboard
+var ctx = canvas.getContext("2d"); // ctx = context of canvas
+var cwidth = 200; // scoreboard width
+var cheight = 100; // scoreboard height
 
 ctx.fillStyle = "black"; // fills canvas in black
 ctx.fillRect(0, 0, 200, 100); // coordinates
@@ -53,13 +53,13 @@ ctx.fillText("X: ", 10, 50); // text, x, y
 ctx.fillText("O: ", 100, 50);// text, x, y
 
 //CANVAS 2 PLAYING BOARD
-var canvas2 = document.getElementById("Canvas2");
-var ctx2 = canvas2.getContext("2d");
-var cellD = l/FcellD;
-var BoardCellD = l/BcellD;
+var canvas2 = document.getElementById("Canvas2"); // creates canvas 2, playing board
+var ctx2 = canvas2.getContext("2d"); // ctx = context of canvas
+var cellD = l/FcellD; // field cell dimension is equal to length of canvas divided by FequalD*BequalD
+var BoardCellD = l/BcellD; // board cell dimensions is equal to length of canvas divided by Board cell dimension
 
-canvas2.width = BequalD * 100;
-canvas2.height = BequalD * 100;
+canvas2.width = BequalD * 100; // board width equal to board dimensions times 100, increases/decreases proportionally
+canvas2.height = BequalD * 100; // board height equal to board dimensions times 100, increases/decreases proportionally
 
 ctx2.fillStyle = "black"; // fills canvas in black
 ctx2.fillRect(0, 0, l, l); // coordinates
@@ -72,9 +72,9 @@ BDrawlines();
 
 //CANVAS 3 STATUS BAR
 var canvas3 = document.getElementById("Canvas3"); // creates canvas 3, status
-var ctx3 = canvas3.getContext("2d");
-var cwidth3 = 200;
-var cheight3 = 100;
+var ctx3 = canvas3.getContext("2d"); // ctx = context
+var cwidth3 = 200; // status bar width
+var cheight3 = 100; // status bar height
 
 ctx3.fillStyle = "black"; // fills canvas in black
 ctx3.fillRect(0, 0, 200, 100); // coordinates
@@ -83,8 +83,8 @@ ctx3.strokeRect(0, 0, 200, 100); // coordinate
 ctx3.lineWidth = 4; // line width
 ctx3.stroke();
 
-function BDrawlines() {
-  for (let Vlines = 1; Vlines < BequalD; Vlines ++) {
+function BDrawlines() { // function that creates a loop in drawing board lines defining the different fields/board cells
+  for (let Vlines = 1; Vlines < BequalD; Vlines ++) { // loop for drawing vertical lines
     ctx2.beginPath();
     ctx2.strokeStyle = 'blue';
     ctx2.moveTo(l*Vlines/BequalD, 0);
@@ -93,7 +93,7 @@ function BDrawlines() {
     ctx2.stroke();
   }
 
-  for (let Hlines = 1; Hlines < BequalD; Hlines ++) {
+  for (let Hlines = 1; Hlines < BequalD; Hlines ++) { // loop for drawing horizontal lines
     ctx2.beginPath();
     ctx2.strokeStyle = 'blue';
     ctx2.moveTo(0, l*Hlines/BequalD);
@@ -103,8 +103,8 @@ function BDrawlines() {
   }
 }
 
-function FDrawlines() {
-  for (let Vlines = 1; Vlines < FcellD; Vlines++) {
+function FDrawlines() { // function that creates a loop in drawing field lines defining the individual field cells
+  for (let Vlines = 1; Vlines < FcellD; Vlines++) { // loop for drawing vertical lines
     ctx2.strokeStyle = 'white';
     ctx2.moveTo(l*Vlines/FcellD, 0);
     ctx2.lineTo(l*Vlines/FcellD, l);
@@ -112,7 +112,7 @@ function FDrawlines() {
     ctx2.stroke();
   }
 
-  for (let Hlines = 1; Hlines < FcellD; Hlines++) {
+  for (let Hlines = 1; Hlines < FcellD; Hlines++) { // loop for drawing horizontal lines
     ctx2.strokeStyle = 'white';
     ctx2.moveTo(0, l*Hlines/FcellD);
     ctx2.lineTo(l, l*Hlines/FcellD);
@@ -121,15 +121,15 @@ function FDrawlines() {
   }
 }
 
-var B = [];
-var F = [];
+var B = []; // creates an empty array for the board
+var F = []; // creates an empty array for the field
 
 for (let i = 0; i < FequalD * FequalD * BequalD * BequalD; i++) { // first two multiplying is the cells in the field, the second two are the number of fields in the board
-  F.push("");
+  F.push(""); // pushes empty "spots" into the array F[]
 }
 
 for (let i = 0; i < BequalD * BequalD; i++) {
-  B.push("");
+  B.push(""); // pushes empty "spots" into the array B[]
 }
 
 console.log(F);
@@ -150,70 +150,69 @@ document.onmousedown = function() { //event listener for if mouse is pressed
   allPlacingCode(x, y); // function of all placing, 2 player AND AI
 }
 
-function getIndex(c, r, Bc, Br) {
+function getIndex(c, r, Bc, Br) { // function that gets the "index" or spot/coordinate in regards to field array
   var i;
   i = (((Br*BequalD) + Bc)*FequalD*FequalD) + (r*FequalD) + c; // the field number * #of cells each field + row inside field(which is 3)*#of cells in field + field column
   return i;
 }
 
-function getBindex(c, r) {
+function getBindex(c, r) { // function that gets the "index" or spot/coordinate in regards to board array
   var Bi;
-  Bi = ((r*BequalD) + c);
+  Bi = ((r*BequalD) + c); // #of cells in field + field column
   return Bi;
 }
 
 function allPlacingCode(x, y) {
   var c, r, Bc, Br;
   //add board c,r defined, helps with placing code or drawing
-  c = Math.floor((x/cellD) % FequalD);
-  r = Math.floor((y/cellD) % FequalD);
-  Bc = Math.floor(x/BcellD);
-  Br = Math.floor(y/BcellD);
+  c = Math.floor((x/cellD) % FequalD); // field column
+  r = Math.floor((y/cellD) % FequalD); // field row
+  Bc = Math.floor(x/BcellD); // board column
+  Br = Math.floor(y/BcellD); // board row
   var i, Bi;
 
   console.log("Field C: " + c + " Field R: "+ r + " Board C: " + Bc + " Board R: " + Br);
-  i = getIndex(c, r, Bc, Br);
-  Bi = getBindex(Bc, Br);
-  checkBoard(nextMoveCboard,nextMoveRboard);
-  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (freePlay == 0 && B[Bi] == "") || (freePlay == 1 && Bc == nextMoveCboard && Br == nextMoveRboard && B[Bi] == "")) && gameStop == false) {
+  i = getIndex(c, r, Bc, Br); //calls on the function to update the index of the field selected
+  Bi = getBindex(Bc, Br); // calls on the function to update the index of the board cell selected
+  checkBoard(nextMoveCboard,nextMoveRboard); // calls on function to check if board is empty or filled
+  if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (freePlay == 0 && B[Bi] == "") || (freePlay == 1 && Bc == nextMoveCboard && Br == nextMoveRboard && B[Bi] == "")) && gameStop == false) { // sets parameters for where the mouse is allowed to be pressed
     if (lastPressed == "X") {
-      F[i] = "O";
-      ThreeinRow(c, r, Bc, Br);
-      placing(c, r, "O", Br, Bc);
+      F[i] = "O"; // fills in field array with "O"
+      ThreeinRow(c, r, Bc, Br); // checks for field win
+      placing(c, r, "O", Br, Bc); // draws "O"
       console.log("O");
       lastPressed = "O";
 
-      nextMoveCboard = c;
-      nextMoveRboard = r;
+      nextMoveCboard = c; // updates next move column
+      nextMoveRboard = r; // updates next move row
     } else {
-      F[i] = "X";
-      ThreeinRow(c, r, Bc, Br);
-      placing(c, r, "X", Br, Bc);
+      F[i] = "X"; // fills in field array with "X"
+      ThreeinRow(c, r, Bc, Br); // check for field win
+      placing(c, r, "X", Br, Bc); // draws "X"
       console.log("X");
       lastPressed = "X";
 
-      nextMoveCboard = c;
-      nextMoveRboard = r;
+      nextMoveCboard = c; // updates next move column
+      nextMoveRboard = r; // updates next move row
     }
-    if (firstMove == 0) {
-      firstMove = 1;
+    if (firstMove == 0) { // first move is always 0 to allow for placing anywhere
+      firstMove = 1; // first move is 1 to force following next move rule
     }
     console.log("Next C Move on Board: " + nextMoveCboard + " Next R Move on Board: " + nextMoveRboard);
   }
-
 }
 
-function checkBoard(Bc,Br){
-  var Bi = getBindex(Bc,Br);
-  if (B[Bi] != ""){
+function checkBoard(Bc,Br){ // checks board to see if board cell or "field" is won
+  var Bi = getBindex(Bc,Br); // gets board index
+  if (B[Bi] != ""){ // if board cell is full, free play is allowed (you can go anywhere)
     freePlay = 0;
   }
-  else {
+  else { // you have to follow next move rule
     freePlay = 1;
   }
 }
 
-function placing(c, r, symbol, Br, Bc) {
+function placing(c, r, symbol, Br, Bc) { // function that draws X or O
   ctx2.fillStyle = "#FFFFFF";
   ctx2.font = autoTextSize();
   ctx2.fillText(symbol, c*cellD + Bc*FequalD*cellD + cellD/(FequalD+1), (r+1)*cellD + Br*FequalD*cellD - cellD/(FequalD+1));
@@ -526,7 +525,7 @@ function reset() {
 
   BcellD = l/BequalD;
   FcellD = (BequalD*FequalD);
-  
+
   //CANVAS 2 PLAYING BOARD
   var canvas2 = document.getElementById("Canvas2");
   var ctx2 = canvas2.getContext("2d");
@@ -541,6 +540,18 @@ function reset() {
 
   FDrawlines();
   BDrawlines();
+
+  var canvas3 = document.getElementById("Canvas3"); // creates canvas 3, status
+  var ctx3 = canvas3.getContext("2d");
+  var cwidth3 = 200;
+  var cheight3 = 100;
+
+  ctx3.fillStyle = "black"; // fills canvas in black
+  ctx3.fillRect(0, 0, 200, 100); // coordinates
+  ctx3.strokeStyle = '#FFFFFF'; // fills border in white
+  ctx3.strokeRect(0, 0, 200, 100); // coordinate
+  ctx3.lineWidth = 4; // line width
+  ctx3.stroke();
 
   for (let i = 0; i < FequalD * FequalD * BequalD * BequalD; i++) { // first two multiplying is the cells in the field, the second two are the number of fields in the board
     F[i] = "";
