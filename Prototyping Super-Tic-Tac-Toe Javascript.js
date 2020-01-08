@@ -173,7 +173,7 @@ function allPlacingCode(x, y) {
 
   console.log("Field C: " + c + " Field R: "+ r + " Board C: " + Bc + " Board R: " + Br);
   i = getIndex(c, r, Bc, Br); //calls on the function to update the index of the field selected
-  Bi = getBindex(Bc, Br); // calls on the function to update the index of the board cell selected
+  Bi = getBindex(Bc, Br); // calls on function to get board index or field number and update it
   checkBoard(nextMoveCboard,nextMoveRboard); // calls on function to check if board is empty or filled
   if (c >= 0 && c < FcellD && r >= 0 && r < FcellD && F[i] == "" && (firstMove == 0 || (freePlay == 0 && B[Bi] == "") || (freePlay == 1 && Bc == nextMoveCboard && Br == nextMoveRboard && B[Bi] == "")) && gameStop == false) { // sets parameters for where the mouse is allowed to be pressed
     if (lastPressed == "X") {
@@ -203,7 +203,7 @@ function allPlacingCode(x, y) {
 }
 
 function checkBoard(Bc,Br){ // checks board to see if board cell or "field" is won
-  var Bi = getBindex(Bc,Br); // gets board index
+  var Bi = getBindex(Bc,Br); // calls on function to get board index or field number and update it
   if (B[Bi] != ""){ // if board cell is full, free play is allowed (you can go anywhere)
     freePlay = 0;
   }
@@ -214,44 +214,45 @@ function checkBoard(Bc,Br){ // checks board to see if board cell or "field" is w
 
 function placing(c, r, symbol, Br, Bc) { // function that draws X or O
   ctx2.fillStyle = "#FFFFFF";
-  ctx2.font = autoTextSize();
-  ctx2.fillText(symbol, c*cellD + Bc*FequalD*cellD + cellD/(FequalD+1), (r+1)*cellD + Br*FequalD*cellD - cellD/(FequalD+1));
+  ctx2.font = "20px Arial"/*autoTextSize()*/;
+  ctx2.fillText(symbol, c*cellD + Bc*FequalD*cellD + cellD/(FequalD+1), (r+1)*cellD + Br*FequalD*cellD - cellD/(FequalD+1)); // draws X or O
   count += 1;
 
-  Bi = getBindex(Bc, Br);
+  Bi = getBindex(Bc, Br); // calls on function to get board index or field number and update it
   console.log(B[Bi]);
-  if (B[Bi] == "O") {
+  if (B[Bi] == "O") { // if field is won by player O draws O
     ctx2.fillStyle = "blue";
     ctx2.font = autoBoardTextSize();
     ctx2.fillText(symbol, (Bc*BequalD*cellD) + cellD/BequalD, (Br+1)*BequalD*cellD - cellD/2.5);
-  } else if (B[Bi] == "X") {
+  } else if (B[Bi] == "X") { // if field is won by player X draws X
     ctx2.fillStyle = "blue";
     ctx2.font = autoBoardTextSize();
     ctx2.fillText(symbol, (Bc*BequalD*cellD) + cellD/BequalD + BequalD-1, (Br+1)*BequalD*cellD - cellD/2.5);
   }
 
-  if (symbol == "X"&& B[Bi] == "") {
+  if (symbol == "X"&& B[Bi] == "") { // updates status bar/box, if field is not won and last played move is X it returns message O's turn
     updateStatus("It is player O's turn");
-  } else if (symbol == "O" && B[Bi] == "") {
+  } else if (symbol == "O" && B[Bi] == "") { // updates status bar/box, if field is not won and last played move is O it returns message X's turn
     updateStatus("It is player X's turn");
   }
 }
 
-function ThreeinRow(c, r, Bc, Br) {
+function ThreeinRow(c, r, Bc, Br) { // function for running all checking function to see if there is a win
   let winX = false;
   let winO = false;
   check3inRow(c, r, Bc, Br);
   checkB3inRow(Bc, Br);
 }
+/*if (XCount != FequalD && Ocount != FequalD && Xcount > Ocount && count Math.pow(FequalD, 2)) NEED TO INCLUDE CHECKER IF FIELD IS A TIE*/
 
-function check3inRow(c, r, Bc, Br) {
+function check3inRow(c, r, Bc, Br) { // checks if a column, row, or diagonal has been won in fields
   if (checkColumn(c, r, Bc, Br) == 1 || checkRow(c, r, Bc, Br) == 1 || checkDiagonal(c, r, Bc, Br) == 1) {
-    Bi = getBindex(Bc, Br);
-    B[Bi] = "X";
-    prevMoveCboard = Bc;
-    prevMoveRboard = Br;
-    Bcount++;
-    updateStatus("X has won field (" + Bc + " , " + Br + ")!"/* + "\nIt is player O's turn"*/);
+    Bi = getBindex(Bc, Br); // calls on function to get board index or field number and update it
+    B[Bi] = "X"; //  fills in board array "spot" or cell with an X
+    prevMoveCboard = Bc; // updates previous column move to the recent board column
+    prevMoveRboard = Br; // updates previous row move to the recent board row
+    Bcount++; // increases board count in order to keep track if the board game is a tie
+    updateStatus("X has won field (" + Bc + " , " + Br + ")!"/* + "\nIt is player O's turn"*/); // prints message in status that player X has won field (Bc, Br)
     /*var txt = updateStatus();
     var lines = txt.split("\n");
 
@@ -259,38 +260,38 @@ function check3inRow(c, r, Bc, Br) {
     ctx3.fillStyle = "#FFFFFF";
     ctx3.font = "18px Arial";
     ctx3.fillText(lines[i], 14, 75);
-  }*/
+    }*/
 } else if (checkColumn(c, r, Bc, Br) == 2 || checkRow(c, r, Bc, Br) == 2 || checkDiagonal(c, r, Bc, Br) == 2) {
-  Bi = getBindex(Bc, Br);
-  B[Bi] = "O";
-  prevMoveCboard = Bc;
-  prevMoveRboard = Br;
-  Bcount++;
-  updateStatus("O has won field (" + Bc + " , " + Br + ")!");
+  Bi = getBindex(Bc, Br); // calls on function to get board index or field number and update it
+  B[Bi] = "O"; // fills in board array "spot" or cell with an O
+  prevMoveCboard = Bc; // updates previous column move to the recent board column
+  prevMoveRboard = Br; // updates previous row move to the recent board row
+  Bcount++; // increases board count in order to keep track if the board game is a tie
+  updateStatus("O has won field (" + Bc + " , " + Br + ")!"); // prints message in status that player O has won field (Bc, Br)
 } else {
-  prevMoveCboard = -1;
-  prevMoveRboard = -1;
+  prevMoveCboard = -1; // sets previous move to negative one incase board is not won in order to
+  prevMoveRboard = -1; //
 }
 }
 
-function checkB3inRow(Bc, Br) {
+function checkB3inRow(Bc, Br) { // checks if a column, row, or diagonal has been won in board
   if (checkBColumn(Bc, Br) == 1 || checkBRow(Bc, Br) == 1 || checkBDiagonal(Bc, Br) == 1) {
-    gameStop = true;
-    updateStatus("X won the Super Game!");
-    xWin+= 1;
+    gameStop = true; // stops game
+    updateStatus("X won the Super Game!"); // Prints out message that X has won the Super Game
+    xWin+= 1; // increases the number of times X has won
     printWinScore("X");
   } else if (checkBColumn(Bc, Br) == 2 || checkBRow(Bc, Br) == 2 || checkBDiagonal(Bc, Br) == 2) {
-    gameStop = true;
-    updateStatus("O won the Super Game!");
-    oWin+= 1;
+    gameStop = true; // Stops game
+    updateStatus("O won the Super Game!");  // Prints out message that O has won the Super Game
+    oWin+= 1; // increases the number of times O has won
     printWinScore("O");
-  } else if (Bcount == (Math.pow(BequalD, 2))) {
-    gameStop = true;
-    updateStatus("Super Game is a tie!");
+  } else if (Bcount == (Math.pow(BequalD, 2))) { // checks if the board count has reached the number of board cells and stops the game
+    gameStop = true; // stops game
+    updateStatus("Super Game is a tie!"); // Prints out message that the no one has won and the Super Game is a tie
   }
 }
 
-function checkColumn(c, r, Bc, Br) {
+function checkColumn(c, r, Bc, Br) { // function that loops and checks all columns in each field if it has been won, and keeps track of where the column has been won and allows for the column to be won again in other fields
   var win = 0;
   var xCount, oCount;
 
@@ -298,25 +299,25 @@ function checkColumn(c, r, Bc, Br) {
     xCount = 0;
     oCount = 0;
     for (r=0; r<FequalD; r++) {
-      i = getIndex(c, r, Bc, Br);
-      if (F[i] == "X") {
+      i = getIndex(c, r, Bc, Br); // calls on function to keep track of the exact field that is being placed in and allow other fields to use the same spaces
+      if (F[i] == "X") { // if the field cell is filled with an X, increase X counter for that field
         xCount++;
       }
-      if (F[i] == "O") {
+      if (F[i] == "O") { // if the field cell is filled with an O, increase O counter for that field
         oCount++;
       }
     }
-    if (xCount == FequalD) {
+    if (xCount == FequalD) { // if there is 3 X's in a row, then return 1, which represents X
       return 1;
     }
-    if (oCount == FequalD) {
+    if (oCount == FequalD) { // if there is 3 O's in a row, then return 2, which represents O
       return 2;
     }
   }
-  return win;
+  return win; // return win value
 }
 
-function checkRow(c, r, Bc, Br) {
+function checkRow(c, r, Bc, Br) { // function that loops and checks all rows in each field if it has been won, and keeps track of where the row has been won and allows for the row to be won again in other fields
   var win = 0;
   var xCount, oCount;
 
@@ -324,25 +325,25 @@ function checkRow(c, r, Bc, Br) {
     xCount = 0;
     oCount = 0;
     for (c=0; c<FequalD; c++) {
-      i = getIndex(c, r, Bc, Br);
-      if (F[i] == "X") {
+      i = getIndex(c, r, Bc, Br); // calls on function to keep track of the exact field that is being placed in and allow other fields to use the same spaces
+      if (F[i] == "X") { // if the field cell is filled with an X, increase X counter for that field
         xCount++;
       }
-      if (F[i] == "O") {
+      if (F[i] == "O") { // if the field cell is filled with an O, increase O counter for that field
         oCount++;
       }
     }
-    if (xCount == FequalD) {
+    if (xCount == FequalD) { // if there is 3 X's in a row, then return 1, which represents X
       return 1;
     }
-    if (oCount == FequalD) {
+    if (oCount == FequalD) { // if there is 3 O's in a row, then return 2, which represents O
       return 2;
     }
   }
-  return win;
+  return win; // return win value
 }
 
-function checkDiagonal(c, r, Bc, Br) {
+function checkDiagonal(c, r, Bc, Br) { // function that loops and checks all diagonals both ways in each field if it has been won, and keeps track of where the diagonal has been won and allows for the diagonal to be won again in other fields
   var win = 0;
   var xCount1, oCount1, xCount2, oCount2;
   xCount1 = 0;
@@ -395,7 +396,7 @@ function checkBColumn(c, r) {
     xCount = 0;
     oCount = 0;
     for (r=0; r<BequalD; r++) {
-      i = getBindex(c, r);
+      i = getBindex(c, r); // calls on function to get board index or field number and update it
       if (B[i] == "X") {
         xCount++;
       }
@@ -421,7 +422,7 @@ function checkBRow(c, r) {
     xCount = 0;
     oCount = 0;
     for (c=0; c<BequalD; c++) {
-      i = getBindex(c, r);
+      i = getBindex(c, r); // calls on function to get board index or field number and update it
       if (B[i] == "X") {
         xCount++;
       }
@@ -448,7 +449,7 @@ function checkBDiagonal(c, r) {
   oCount2 = 0;
 
   for (d=0; d<BequalD; d++) {
-    i = getBindex(d, d);
+    i = getBindex(d, d); // calls on function to get board index or field number and update it
 
     if (B[i] == "X") {
       xCount1++;
@@ -459,7 +460,7 @@ function checkBDiagonal(c, r) {
   }
 
   for (d=0; d<BequalD; d++) {
-    i = getBindex(d, BequalD-1-d);
+    i = getBindex(d, BequalD-1-d); // calls on function to get board index or field number and update it
 
     if (B[i] == "X") {
       xCount2++;
