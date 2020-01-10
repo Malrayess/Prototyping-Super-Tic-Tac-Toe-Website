@@ -393,7 +393,7 @@ function checkDiagonal(c, r, Bc, Br) { // function that loops and checks all dia
   oCount1 = 0; // increases O count for a diagonal going from top left to bottom right
   xCount2 = 0; // increases X count for a diagonal going from top right to bottom left
   oCount2 = 0; // increases O count for a diagonal going from top right to bottom left
-//There are only two ways to win by a diagonal line, must include two separate cases for each as well as counters for each
+  //There are only two ways to win by a diagonal line, must include two separate cases for each as well as counters for each
   for (d=0; d<FequalD; d++) { // First way, diagonal line from top left to bottom right
     i = getIndex(d, d, Bc, Br); // calls on function to get board index or field number and update it
 
