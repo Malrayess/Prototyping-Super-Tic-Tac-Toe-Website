@@ -138,6 +138,7 @@ document.onmousemove = function(evt) { // event listener for mouse
   //call function here
   mousePos = getMousePosition(evt); // gets mouse position by calling function, x y
 }
+
 function getMousePosition(evt) { // function that calculates mouse position
   var rect = Canvas2.getBoundingClientRect(); // gets coords based off of the canvas 2
   x = Math.round(evt.clientX - rect.left);
@@ -218,6 +219,7 @@ function placing(c, r, symbol, Br, Bc) { // function that draws X or O
   count += 1;
 
   Bi = getBindex(Bc, Br); // calls on function to get board index or field number and update it
+
   console.log(B[Bi]);
   if (B[Bi] == "O") { // if field is won by player O draws O
     ctx2.fillStyle = "blue";
@@ -411,7 +413,7 @@ function checkDiagonal(c, r, Bc, Br) { // function that loops and checks all dia
     if (F[i] == "X") { // if the field cell is filled with an X, increase X counter #2 for that field
       xCount2++;
     }
-    if (F[i] == "O") { // if the field cell is filled with an O, increase O counter #1 for that field
+    if (F[i] == "O") { // if the field cell is filled with an O, increase O counter #2 for that field
       oCount2++;
     }
   }
@@ -431,7 +433,7 @@ function checkDiagonal(c, r, Bc, Br) { // function that loops and checks all dia
   return win;
 }
 
-function checkBColumn(c, r) {
+function checkBColumn(c, r) { // function for checking big board column wins
   var win = 0;
   var xCount, oCount;
 
@@ -440,24 +442,24 @@ function checkBColumn(c, r) {
     oCount = 0;
     for (r=0; r<BequalD; r++) {
       i = getBindex(c, r); // calls on function to get board index or field number and update it
-      if (B[i] == "X") {
+      if (B[i] == "X") {  // if the board cell is filled with an X, increase X count
         xCount++;
       }
-      if (B[i] == "O") {
+      if (B[i] == "O") { // if the board cell is filled with an O, increase O count
         oCount++;
       }
     }
-    if (xCount == BequalD) {
+    if (xCount == BequalD) { // if there is 3 X's in a row, then return 1, which represents X
       return 1;
     }
-    if (oCount == BequalD) {
+    if (oCount == BequalD) { // if there is 3 O's in a row, then return 2, which represents O
       return 2;
     }
   }
   return win;
 }
 
-function checkBRow(c, r) {
+function checkBRow(c, r) { // function that checks board row wins
   var win = 0;
   var xCount, oCount;
 
@@ -466,69 +468,69 @@ function checkBRow(c, r) {
     oCount = 0;
     for (c=0; c<BequalD; c++) {
       i = getBindex(c, r); // calls on function to get board index or field number and update it
-      if (B[i] == "X") {
+      if (B[i] == "X") { // if the board cell is filled with an X, increase X count
         xCount++;
       }
-      if (B[i] == "O") {
+      if (B[i] == "O") {// if the board cell is filled with an O, increase O count
         oCount++;
       }
     }
-    if (xCount == BequalD) {
+    if (xCount == BequalD) { // if there is 3 X's in a row, then return 1, which represents X
       return 1;
     }
-    if (oCount == BequalD) {
+    if (oCount == BequalD) { // if there is 3 O's in a row, then return 2, which represents O
       return 2;
     }
   }
   return win;
 }
 
-function checkBDiagonal(c, r) {
+function checkBDiagonal(c, r) { // function that loops and checks all diagonals both ways in the big board if it has been won
   var win = 0;
   var xCount1, oCount1, xCount2, oCount2;
-  xCount1 = 0;
-  oCount1 = 0;
-  xCount2 = 0;
-  oCount2 = 0;
-
-  for (d=0; d<BequalD; d++) {
+  xCount1 = 0; // increases X count for a diagonal going from top left to bottom right
+  oCount1 = 0; // increases O count for a diagonal going from top left to bottom right
+  xCount2 = 0; // increases X count for a diagonal going from top right to bottom left
+  oCount2 = 0; // increases O count for a diagonal going from top right to bottom left
+  //There are only two ways to win by a diagonal line, must include two separate cases for each as well as counters for each
+  for (d=0; d<BequalD; d++) { // First way, diagonal line from top left to bottom right
     i = getBindex(d, d); // calls on function to get board index or field number and update it
 
-    if (B[i] == "X") {
+    if (B[i] == "X") { // if the field cell is filled with an X, increase X counter #1 for that field
       xCount1++;
     }
-    if (B[i] == "O") {
+    if (B[i] == "O") { // if the field cell is filled with an O, increase O counter #1 for that field
       oCount1++;
     }
   }
 
-  for (d=0; d<BequalD; d++) {
+  for (d=0; d<BequalD; d++) { // Second way, diagonal line from top right to bottom left
     i = getBindex(d, BequalD-1-d); // calls on function to get board index or field number and update it
 
-    if (B[i] == "X") {
+    if (B[i] == "X") { // if the field cell is filled with an X, increase X counter #2 for that field
       xCount2++;
     }
-    if (B[i] == "O") {
+    if (B[i] == "O") { // if the field cell is filled with an O, increase O counter #2 for that field
       oCount2++;
     }
   }
 
-  if (xCount1 == BequalD) {
+  if (xCount1 == BequalD) { // if there is 3 X's in a row, top left to bottom right, then return 1, which represents X
     return 1;
   }
-  if (oCount1 == BequalD) {
+  if (oCount1 == BequalD) { // if there is 3 O's in a row, top left to bottom right, then return 2, which represents O
     return 2;
   }
-  if (xCount2 == BequalD) {
+  if (xCount2 == BequalD) { // if there is 3 X's in a row, top right to bottom left, then return 1, which represents X
     return 1;
   }
-  if (oCount2 == BequalD) {
+  if (oCount2 == BequalD) { // if there is 3 O's in a row, top right to bottom left, then return 2, which represents O
     return 2;
   }
   return win;
 }
 
-document.onkeypress = function keyboardR(event) {
+document.onkeypress = function keyboardR(event) { // reset keypress
   // call function here
   var keyCode = event.which;
   if (keyCode == 114) {
@@ -536,11 +538,12 @@ document.onkeypress = function keyboardR(event) {
   }
 }
 
-function reset() {
+function reset() { // reset board function
   gameStop = false;
   lastPressed = "O";
   Bcount = 0;
   count = 0;
+  l = BequalD * 100;
   document.body.style.backgroundColor = "black";
 
   //CANVAS 1 SCOREBOARD
@@ -576,6 +579,9 @@ function reset() {
   var cellD = l/FcellD;
   var BoardCellD = l/BcellD;
 
+  canvas2.width = BequalD * 100; // board width equal to board dimensions times 100, increases/decreases proportionally
+  canvas2.height = BequalD * 100; // board height equal to board dimensions times 100, increases/decreases proportionally
+
   ctx2.fillStyle = "black"; // fills canvas in black
   ctx2.fillRect(0, 0, l, l); // coordinates
   ctx2.strokeStyle = '#FFFFFF'; // fills border in white
@@ -597,11 +603,11 @@ function reset() {
   ctx3.lineWidth = 4; // line width
   ctx3.stroke();
 
-  for (let i = 0; i < FequalD * FequalD * BequalD * BequalD; i++) { // first two multiplying is the cells in the field, the second two are the number of fields in the board
+  for (let i = 0; i < FequalD * FequalD * BequalD * BequalD; i++) { // for every field cell set empty
     F[i] = "";
   }
 
-  for (let i = 0; i < BequalD * BequalD; i++) {
+  for (let i = 0; i < BequalD * BequalD; i++)  {// for every board cell set empty
     B[i] = "";
   }
 
@@ -609,6 +615,15 @@ function reset() {
   nextMoveCboard = 0;
   nextMoveRboard = 0;
   firstMove = 0;
+
+  var c, r, Bc, Br, i , Bi;
+  c = Math.floor((x/cellD) % FequalD); // field column
+  r = Math.floor((y/cellD) % FequalD); // field row
+  Bc = Math.floor(x/BcellD); // board column
+  Br = Math.floor(y/BcellD); // board row
+
+  i = getIndex(c, r, Bc, Br); //calls on the function to update the index of the field selected
+  Bi = getBindex(Bc, Br); // calls on function to get board index or field number and update it
 }
 
 function updateStatus(status) {
@@ -624,7 +639,7 @@ function updateStatus(status) {
   ctx3.fillText(status, 22, 50); // text, x, y
 }
 
-function printWinScore(winner) {
+function printWinScore(winner) { // updates scoreboard after a game has been won
   if (winner == "X") {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, 200, 100);
