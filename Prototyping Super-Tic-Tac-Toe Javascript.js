@@ -591,6 +591,17 @@ function reset() { // reset board function
   FDrawlines();
   BDrawlines();
 
+  F.length = 0; // resets field array to nothing
+  B.length = 0; // resets board array to nothing
+
+    for (let i = 0; i < FequalD * FequalD * BequalD * BequalD; i++) { // for every field cell set empty
+      F[i] = "";
+    }
+
+    for (let i = 0; i < BequalD * BequalD; i++)  {// for every board cell set empty
+      B[i] = "";
+    }
+
   var canvas3 = document.getElementById("Canvas3"); // creates canvas 3, status
   var ctx3 = canvas3.getContext("2d");
   var cwidth3 = 200;
@@ -603,20 +614,7 @@ function reset() { // reset board function
   ctx3.lineWidth = 4; // line width
   ctx3.stroke();
 
-  for (let i = 0; i < FequalD * FequalD * BequalD * BequalD; i++) { // for every field cell set empty
-    F[i] = "";
-  }
-
-  for (let i = 0; i < BequalD * BequalD; i++)  {// for every board cell set empty
-    B[i] = "";
-  }
-
-  freePlay = 1;
-  nextMoveCboard = 0;
-  nextMoveRboard = 0;
-  firstMove = 0;
-
-  var c, r, Bc, Br, i , Bi;
+/*  var c, r, Bc, Br, i , Bi;
   c = Math.floor((x/cellD) % FequalD); // field column
   r = Math.floor((y/cellD) % FequalD); // field row
   Bc = Math.floor(x/BcellD); // board column
@@ -624,6 +622,14 @@ function reset() { // reset board function
 
   i = getIndex(c, r, Bc, Br); //calls on the function to update the index of the field selected
   Bi = getBindex(Bc, Br); // calls on function to get board index or field number and update it
+*/
+  freePlay = 1;
+  nextMoveCboard = 0;
+  nextMoveRboard = 0;
+  firstMove = 0;
+
+  console.log(F);
+  console.log(B);
 }
 
 function updateStatus(status) {
