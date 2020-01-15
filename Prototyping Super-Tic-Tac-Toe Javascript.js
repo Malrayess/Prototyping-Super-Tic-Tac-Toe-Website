@@ -576,8 +576,8 @@ function reset() { // reset board function
   //CANVAS 2 PLAYING BOARD
   var canvas2 = document.getElementById("Canvas2");
   var ctx2 = canvas2.getContext("2d");
-  var cellD = l/FcellD;
-  var BoardCellD = l/BcellD;
+  cellD = l/FcellD;
+  BoardCellD = l/BcellD;
 
   canvas2.width = BequalD * 100; // board width equal to board dimensions times 100, increases/decreases proportionally
   canvas2.height = BequalD * 100; // board height equal to board dimensions times 100, increases/decreases proportionally
