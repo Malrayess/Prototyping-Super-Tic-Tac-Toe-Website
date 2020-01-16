@@ -285,8 +285,8 @@ function check3inRow(c, r, Bc, Br) { // checks if a column, row, or diagonal has
     updateStatus("O has won field (" + Bc + " , " + Br + ")!"); // prints message in status that player O has won field (Bc, Br)
   }
 } else {
-  prevMoveCboard = -1; // sets previous move to negative one incase board is not won in order to
-  prevMoveRboard = -1; //
+  prevMoveCboard = -1; // if previous column move is negative one you can place anywhere on the board
+  prevMoveRboard = -1; // if previous row move is negative one you can place anywhere on the board
 }
 }
 /*if (XCount != FequalD && Ocount != FequalD && Xcount > Ocount && count Math.pow(FequalD, 2)) NEED TO INCLUDE CHECKER IF FIELD IS A TIE*/
